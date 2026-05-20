@@ -1,0 +1,93 @@
+.map-wrap {
+  position: relative;
+  height: 720px;
+  background: var(--ib-narra-deep);
+  border: 1px solid var(--ib-rule);
+  overflow: hidden;
+}
+
+.map-tint {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 400;
+  background:
+    radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(15,21,56,0.45) 100%),
+    linear-gradient(180deg, rgba(46,49,108,0.18), transparent 30%);
+  mix-blend-mode: multiply;
+}
+
+#map {
+  position: absolute;
+  inset: 0;
+  background: #080c1e;
+}
+
+/* Hue-shift tiles toward indigo/purple palette */
+.leaflet-tile-pane {
+  filter: hue-rotate(240deg) saturate(0.55) brightness(0.75);
+}
+
+.map-corner {
+  position: absolute;
+  z-index: 500;
+  pointer-events: none;
+  font-family: var(--ib-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ib-fg-muted);
+}
+
+.map-corner--br {
+  bottom: 16px;
+  right: 18px;
+  text-align: right;
+}
+
+.map-corner__row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.map-corner__label {
+  color: var(--ib-fg-dim);
+}
+
+.map-corner__val {
+  color: var(--ib-fg-display);
+}
+
+.map-corner__bar {
+  width: 28px;
+  height: 1px;
+  background: var(--ib-rule-strong);
+  display: inline-block;
+}
+
+.map-attr {
+  position: absolute;
+  z-index: 500;
+  bottom: 6px;
+  left: 8px;
+  font-size: 10px;
+  font-family: var(--ib-font-mono);
+  color: var(--ib-fg-dim);
+  letter-spacing: 0.04em;
+}
+
+.map-attr a {
+  color: var(--ib-fg-muted);
+  border-bottom: 1px dotted var(--ib-rule);
+}
+
+.map-attr a:hover {
+  color: var(--ib-bituin);
+}
+
+@media (max-width: 1100px) {
+  .map-wrap {
+    height: 540px;
+  }
+}

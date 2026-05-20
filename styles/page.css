@@ -1,0 +1,49 @@
+.page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(1100px 700px at 12% -10%, rgba(128,55,202,0.08), transparent 60%),
+    radial-gradient(900px 600px at 100% 110%, rgba(28,96,160,0.12), transparent 60%);
+  pointer-events: none;
+  z-index: -2;
+}
+
+.page::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url('/assets/visayan-pattern.png');
+  background-repeat: repeat;
+  background-size: 320px auto;
+  opacity: 0.035;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Registration ticks */
+.ticks span {
+  position: fixed;
+  background: var(--ib-rule-strong);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.ticks .h { width: 28px; height: 1px; }
+.ticks .v { width: 1px; height: 28px; }
+.ticks .tl-h { top: 84px; left: 32px; }
+.ticks .tl-v { top: 70px; left: 46px; }
+.ticks .tr-h { top: 84px; right: 32px; }
+.ticks .tr-v { top: 70px; right: 46px; }
+.ticks .bl-h { bottom: 32px; left: 32px; }
+.ticks .bl-v { bottom: 18px; left: 46px; }
+.ticks .br-h { bottom: 32px; right: 32px; }
+.ticks .br-v { bottom: 18px; right: 46px; }

@@ -1,0 +1,125 @@
+/* =====================================================================
+   IN BITUIN — Core tokens
+   Constellations of Filipino Creativity. Handcrafted · Heartfelt · Alive.
+   ===================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Brand palette */
+  --ib-narra-darkest:  #0f1538;  /* deep navy, near-black            */
+  --ib-narra-deep:     #131c45;  /* dark navy — panel & popup bg     */
+  --ib-canopy:         #2e316c;  /* dominant brand indigo             */
+  --ib-canopy-mid:     #3b3e80;  /* elevated surface                 */
+  --ib-canopy-light:   #1c60a0;  /* medium blue — highlights         */
+  --ib-leaf:           #4080b8;  /* hover / softer accents           */
+
+  /* The star. */
+  --ib-bituin:         #8037ca;  /* signature purple                 */
+  --ib-bituin-soft:    #6b2daa;  /* hover / pressed                  */
+  --ib-bituin-dim:     #4a1f78;  /* on-light surfaces                */
+
+  /* Sky blues — replaces abaca cream. */
+  --ib-abaca:          #90bee9;  /* primary body text                */
+  --ib-abaca-soft:     #78a8d8;  /* secondary text                   */
+  --ib-abaca-paper:    #e8f0fb;  /* light-mode background            */
+  --ib-abaca-deep:     #5888b0;  /* tertiary / disabled              */
+
+  /* Mid-blue accent (replaces ember terracotta). */
+  --ib-ember:          #1c60a0;
+
+  /* Semantic surfaces */
+  --ib-bg:             var(--ib-canopy);
+  --ib-bg-elevated:    var(--ib-canopy-mid);
+  --ib-bg-sunken:      var(--ib-narra-deep);
+  --ib-bg-paper:       var(--ib-abaca-paper);
+
+  --ib-fg:             var(--ib-abaca);
+  --ib-fg-muted:       var(--ib-abaca-soft);
+  --ib-fg-dim:         var(--ib-abaca-deep);
+  --ib-fg-display:     #dde8ff;  /* lavender-white for headlines     */
+  --ib-fg-on-paper:    var(--ib-narra-deep);
+
+  --ib-accent:         var(--ib-bituin);
+  --ib-accent-on:      #ffffff;  /* white text on purple             */
+  --ib-link:           var(--ib-bituin);
+  --ib-focus:          var(--ib-bituin);
+
+  /* Hairlines */
+  --ib-rule:           rgba(144, 190, 233, 0.18);
+  --ib-rule-strong:    rgba(144, 190, 233, 0.32);
+  --ib-rule-paper:     rgba(15, 21, 56, 0.14);
+
+  /* States */
+  --ib-hover-veil:     rgba(128, 55, 202, 0.08);
+  --ib-press-veil:     rgba(15, 21, 56, 0.18);
+
+  /* Type families */
+  --ib-font-display:   'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  --ib-font-sans:      'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --ib-font-mono:      'DM Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Type scale */
+  --ib-text-2xs:       11px;
+  --ib-text-xs:        12px;
+  --ib-text-sm:        14px;
+  --ib-text-base:      16px;
+  --ib-text-lg:        19px;
+  --ib-text-xl:        24px;
+  --ib-text-2xl:       30px;
+  --ib-text-3xl:       38px;
+  --ib-text-4xl:       52px;
+  --ib-text-5xl:       72px;
+  --ib-text-6xl:       104px;
+  --ib-text-7xl:       148px;
+
+  --ib-leading-tight:  1.05;
+  --ib-leading-snug:   1.18;
+  --ib-leading-body:   1.45;
+  --ib-leading-loose:  1.65;
+
+  --ib-tracking-eyebrow:  0.32em;
+  --ib-tracking-caps:     0.18em;
+  --ib-tracking-tight:   -0.015em;
+  --ib-tracking-display: -0.01em;
+
+  /* Spacing */
+  --ib-space-1:   4px;
+  --ib-space-2:   8px;
+  --ib-space-3:   12px;
+  --ib-space-4:   16px;
+  --ib-space-5:   24px;
+  --ib-space-6:   32px;
+  --ib-space-7:   48px;
+  --ib-space-8:   64px;
+  --ib-space-9:   96px;
+  --ib-space-10:  128px;
+  --ib-space-11:  192px;
+
+  /* Radii */
+  --ib-radius-0:   0;
+  --ib-radius-1:   2px;
+  --ib-radius-2:   4px;
+  --ib-radius-3:   8px;
+  --ib-radius-4:   14px;
+  --ib-radius-pill: 999px;
+
+  /* Shadows */
+  --ib-shadow-lift:    0 6px 24px -8px rgba(0,0,0,0.55);
+  --ib-shadow-deep:    0 20px 60px -20px rgba(0,0,0,0.65);
+  --ib-glow-star:      0 0 60px rgba(128,55,202,0.35), 0 0 120px rgba(128,55,202,0.15);
+  --ib-glow-soft:      0 0 80px rgba(144,190,233,0.18);
+
+  /* Motion */
+  --ib-ease:      cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ib-ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
+  --ib-dur-1:     120ms;
+  --ib-dur-2:     220ms;
+  --ib-dur-3:     420ms;
+  --ib-dur-4:     720ms;
+
+  /* Layout */
+  --ib-container:      1240px;
+  --ib-container-wide: 1440px;
+  --ib-gutter:         clamp(20px, 5vw, 64px);
+}
