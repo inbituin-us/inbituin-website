@@ -17,7 +17,7 @@
   mix-blend-mode: multiply;
 }
 
-#map {
+.map-canvas {
   position: absolute;
   inset: 0;
   background: #080c1e;
@@ -86,8 +86,10 @@
   color: var(--ib-bituin);
 }
 
+/* ===== Tablet ===== */
 @media (max-width: 1100px) {
   .map-wrap {
-    height: 540px;
+    height: 520px;
+    order: 0;
   }
 }

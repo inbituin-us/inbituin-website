@@ -5,20 +5,26 @@ import L from "leaflet";
 import type { Partner } from "@/data/partners";
 import { popupHTML } from "@/components/popupHTML";
 
-const TILE_PRESETS: Record<string, { url: string; attribution: string; filter: string }> = {
+const TILE_PRESETS: Record<
+  string,
+  { url: string; attribution: string; filter: string }
+> = {
   canopy: {
     url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> · <a href="https://carto.com/attributions">CARTO</a>',
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> · <a href="https://carto.com/attributions">CARTO</a>',
     filter: "hue-rotate(240deg) saturate(0.55) brightness(0.75)",
   },
   void: {
     url: "https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png",
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> · <a href="https://carto.com/attributions">CARTO</a>',
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> · <a href="https://carto.com/attributions">CARTO</a>',
     filter: "hue-rotate(230deg) saturate(0.4) brightness(0.5) contrast(1.1)",
   },
   paper: {
     url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> · <a href="https://carto.com/attributions">CARTO</a>',
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> · <a href="https://carto.com/attributions">CARTO</a>',
     filter: "hue-rotate(210deg) saturate(0.5) brightness(0.9)",
   },
 };
@@ -44,7 +50,9 @@ function sunIconHTML(num: string, active: boolean): string {
   const rays: string[] = [];
   for (let i = 0; i < 8; i++) {
     const a = i * 45;
-    rays.push(`<rect class="star-shape" x="-1.4" y="-30" width="2.8" height="14" transform="rotate(${a})"/>`);
+    rays.push(
+      `<rect class="star-shape" x="-1.4" y="-30" width="2.8" height="14" transform="rotate(${a})"/>`,
+    );
   }
   return `
     <div class="${cls}" data-num="${num}">
@@ -69,19 +77,23 @@ function pinIconHTML(num: string, active: boolean): string {
     </div>`;
 }
 
-const PIN_RENDERERS: Record<string, (num: string, active: boolean) => string> = {
-  star: starIconHTML,
-  sun: sunIconHTML,
-  classic: pinIconHTML,
-};
+const PIN_RENDERERS: Record<string, (num: string, active: boolean) => string> =
+  {
+    star: starIconHTML,
+    sun: sunIconHTML,
+    classic: pinIconHTML,
+  };
 
 interface ConstellationMapProps {
   partners: Partner[];
-  activeId: string;
+  activeId: string | null;
   setActiveId: (id: string) => void;
   hoverId: string | null;
   tileKey: string;
   pinStyle: string;
+  mobileMode?: boolean;
+  sheetHeight?: number;
+  locateRequest?: number;
 }
 
 export default function ConstellationMap({
@@ -91,6 +103,9 @@ export default function ConstellationMap({
   hoverId,
   tileKey,
   pinStyle,
+  mobileMode = false,
+  sheetHeight = 0,
+  locateRequest = 0,
 }: ConstellationMapProps) {
   const mapEl = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
@@ -103,13 +118,16 @@ export default function ConstellationMap({
 
     const map = L.map(mapEl.current, {
       center: [40.718, -73.965],
-      zoom: 12,
+      zoom: mobileMode ? 11.5 : 12,
+      zoomSnap: mobileMode ? 0.5 : 1,
       zoomControl: false,
       attributionControl: false,
       scrollWheelZoom: true,
     });
 
-    L.control.zoom({ position: "topright" }).addTo(map);
+    if (!mobileMode) {
+      L.control.zoom({ position: "topright" }).addTo(map);
+    }
     mapRef.current = map;
 
     const preset = TILE_PRESETS[tileKey] ?? TILE_PRESETS.canopy;
@@ -128,7 +146,29 @@ export default function ConstellationMap({
       mapRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [mobileMode]);
+
+  useEffect(() => {
+    if (!mobileMode || !mapRef.current) return;
+    const timeout = window.setTimeout(() => {
+      mapRef.current?.invalidateSize();
+    }, 320);
+    return () => window.clearTimeout(timeout);
+  }, [mobileMode, sheetHeight]);
+
+  useEffect(() => {
+    if (!mobileMode || !locateRequest || !mapRef.current || !navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        mapRef.current?.flyTo([coords.latitude, coords.longitude], 14, {
+          duration: 0.55,
+          easeLinearity: 0.12,
+        });
+      },
+      () => undefined,
+      { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 },
+    );
+  }, [mobileMode, locateRequest]);
 
   // Swap tile layer when style changes
   useEffect(() => {
@@ -158,24 +198,29 @@ export default function ConstellationMap({
       const icon = L.divIcon({
         html: render(num, false),
         className: "",
-        iconSize: [36, 36],
-        iconAnchor: [18, 18],
+        iconSize: mobileMode ? [32, 32] : [36, 36],
+        iconAnchor: mobileMode ? [16, 16] : [18, 18],
       });
 
-      const m = L.marker([p.lat, p.lng], { icon, riseOnHover: true }).addTo(mapRef.current!);
+      const m = L.marker([p.lat, p.lng], { icon, riseOnHover: true }).addTo(
+        mapRef.current!,
+      );
 
-      m.bindPopup(popupHTML(p, idx), {
-        offset: L.point(0, -10),
-        closeButton: true,
-        autoPan: true,
-        autoPanPadding: L.point(60, 80),
-        maxWidth: 420,
-      });
+      if (!mobileMode) {
+        const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
+        m.bindPopup(popupHTML(p, idx), {
+          offset: L.point(0, -10),
+          closeButton: true,
+          autoPan: true,
+          autoPanPadding: isMobile ? L.point(12, 60) : L.point(60, 80),
+          maxWidth: isMobile ? window.innerWidth - 24 : 420,
+        });
+      }
 
       m.on("click", () => setActiveId(p.id));
       markersRef.current[p.id] = m;
     });
-  }, [partners, pinStyle, setActiveId]);
+  }, [partners, pinStyle, setActiveId, mobileMode]);
 
   // Hover highlight
   useEffect(() => {
@@ -209,46 +254,60 @@ export default function ConstellationMap({
       const icon = L.divIcon({
         html: render(num, isActive),
         className: "",
-        iconSize: isActive ? [56, 56] : [36, 36],
-        iconAnchor: isActive ? [28, 28] : [18, 18],
+        iconSize: isActive
+          ? mobileMode
+            ? [52, 52]
+            : [56, 56]
+          : mobileMode
+            ? [32, 32]
+            : [36, 36],
+        iconAnchor: isActive
+          ? mobileMode
+            ? [26, 26]
+            : [28, 28]
+          : mobileMode
+            ? [16, 16]
+            : [18, 18],
       });
       m.setIcon(icon);
 
       if (isActive) {
         const map = mapRef.current!;
-        const targetZoom = Math.max(map.getZoom(), 14);
+        const targetZoom = Math.max(map.getZoom(), mobileMode ? 13 : 14);
         const px = map.project([p.lat, p.lng], targetZoom);
-        const adjusted = map.unproject(px.subtract([0, 90]), targetZoom);
-        map.flyTo(adjusted, targetZoom, { duration: 0.55, easeLinearity: 0.12 });
-        setTimeout(() => m.openPopup(), 480);
+        const yOffset = mobileMode ? Math.max(90, sheetHeight / 2 - 40) : 90;
+        const adjusted = map.unproject(
+          mobileMode ? px.add([0, yOffset]) : px.subtract([0, yOffset]),
+          targetZoom,
+        );
+        map.flyTo(adjusted, targetZoom, {
+          duration: 0.55,
+          easeLinearity: 0.12,
+        });
+        if (!mobileMode) {
+          window.setTimeout(() => m.openPopup(), 480);
+        }
       }
     });
-  }, [activeId, partners, pinStyle]);
+  }, [activeId, partners, pinStyle, mobileMode, sheetHeight]);
 
   return (
-    <div className="map-wrap">
-      <div id="map" ref={mapEl} />
+    <div className={"map-wrap" + (mobileMode ? " map-wrap--mobile" : "")}>
+      <div className="map-canvas" ref={mapEl} />
       <div className="map-tint" aria-hidden="true" />
 
-      <div className="map-corner map-corner--br">
-        <div className="map-corner__row" style={{ justifyContent: "flex-end" } as React.CSSProperties}>
-          <span className="map-corner__label">Plate</span>
-          <span className="map-corner__val">004 / 2026</span>
-          <span className="map-corner__bar" />
+      {!mobileMode && (
+        <div className="map-corner map-corner--br">
+          <div
+            className="map-corner__row"
+            style={{ justifyContent: "flex-end" } as React.CSSProperties}
+          >
+            <span className="map-corner__label">June</span>
+            <span className="map-corner__val">2026</span>
+            <span className="map-corner__bar" />
+          </div>
         </div>
-      </div>
-
-      <div className="map-attr">
-        ©{" "}
-        <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">
-          OpenStreetMap
-        </a>
-        {" · "}
-        <a href="https://carto.com/attributions" target="_blank" rel="noopener">
-          CARTO
-        </a>
-        {" · "}Leaflet
-      </div>
+      )}
     </div>
   );
 }
