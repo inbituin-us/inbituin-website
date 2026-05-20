@@ -14,19 +14,19 @@
   --ib-canopy-light:   #1c60a0;  /* medium blue — highlights         */
   --ib-leaf:           #4080b8;  /* hover / softer accents           */
 
-  /* The star. */
-  --ib-bituin:         #8037ca;  /* signature purple                 */
-  --ib-bituin-soft:    #6b2daa;  /* hover / pressed                  */
-  --ib-bituin-dim:     #4a1f78;  /* on-light surfaces                */
+  /* The star — pins, eyebrows, CTAs, selected state. */
+  --ib-bituin:         #90bee9;  /* sky blue                         */
+  --ib-bituin-soft:    #78a8d8;  /* hover / pressed                  */
+  --ib-bituin-dim:     #5888b0;  /* on-light surfaces                */
 
-  /* Sky blues — replaces abaca cream. */
-  --ib-abaca:          #90bee9;  /* primary body text                */
-  --ib-abaca-soft:     #78a8d8;  /* secondary text                   */
+  /* Muted sky-blue for body copy (distinct from the saturated accent). */
+  --ib-abaca:          #c8dcf0;  /* primary body text                */
+  --ib-abaca-soft:     #a8c0d8;  /* secondary text                   */
   --ib-abaca-paper:    #e8f0fb;  /* light-mode background            */
-  --ib-abaca-deep:     #5888b0;  /* tertiary / disabled              */
+  --ib-abaca-deep:     #7898b4;  /* tertiary / disabled              */
 
-  /* Mid-blue accent (replaces ember terracotta). */
-  --ib-ember:          #1c60a0;
+  /* Purple accent — reserved for the ✦ hero mark only. */
+  --ib-ember:          #8037ca;
 
   /* Semantic surfaces */
   --ib-bg:             var(--ib-canopy);
@@ -41,7 +41,7 @@
   --ib-fg-on-paper:    var(--ib-narra-deep);
 
   --ib-accent:         var(--ib-bituin);
-  --ib-accent-on:      #ffffff;  /* white text on purple             */
+  --ib-accent-on:      #0f1538;  /* dark navy text on sky-blue       */
   --ib-link:           var(--ib-bituin);
   --ib-focus:          var(--ib-bituin);
 
@@ -51,7 +51,7 @@
   --ib-rule-paper:     rgba(15, 21, 56, 0.14);
 
   /* States */
-  --ib-hover-veil:     rgba(128, 55, 202, 0.08);
+  --ib-hover-veil:     rgba(144, 190, 233, 0.08);
   --ib-press-veil:     rgba(15, 21, 56, 0.18);
 
   /* Type families */
@@ -107,7 +107,7 @@
   /* Shadows */
   --ib-shadow-lift:    0 6px 24px -8px rgba(0,0,0,0.55);
   --ib-shadow-deep:    0 20px 60px -20px rgba(0,0,0,0.65);
-  --ib-glow-star:      0 0 60px rgba(128,55,202,0.35), 0 0 120px rgba(128,55,202,0.15);
+  --ib-glow-star:      0 0 60px rgba(144,190,233,0.4), 0 0 120px rgba(144,190,233,0.18);
   --ib-glow-soft:      0 0 80px rgba(144,190,233,0.18);
 
   /* Motion */

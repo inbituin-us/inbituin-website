@@ -1,8 +1,6 @@
 .star-pin {
   width: 36px !important;
   height: 36px !important;
-  margin-left: -18px !important;
-  margin-top: -18px !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,12 +17,12 @@
 
 .star-pin .star-shape {
   fill: var(--ib-abaca);
-  filter: drop-shadow(0 0 6px rgba(144,190,233,0.5));
+  filter: drop-shadow(0 0 6px rgba(200,220,240,0.45));
   transition: fill var(--ib-dur-2) var(--ib-ease), filter var(--ib-dur-3) var(--ib-ease);
 }
 
 .star-pin .star-halo {
-  fill: rgba(128,55,202,0);
+  fill: rgba(144,190,233,0);
   transform-origin: center;
   transition: fill var(--ib-dur-3) var(--ib-ease);
 }
@@ -32,7 +30,7 @@
 .star-pin .star-num {
   font-family: var(--ib-font-mono);
   font-size: 9px;
-  fill: #ffffff;
+  fill: #0f1538;
   font-weight: 600;
   text-anchor: middle;
   dominant-baseline: middle;
@@ -51,19 +49,17 @@
 .star-pin--active {
   width: 56px !important;
   height: 56px !important;
-  margin-left: -28px !important;
-  margin-top: -28px !important;
   z-index: 1000 !important;
 }
 
 .star-pin--active .star-halo {
-  fill: rgba(128,55,202,0.22);
+  fill: rgba(144,190,233,0.2);
   animation: twinkle 2.6s ease-in-out infinite;
 }
 
 .star-pin--active .star-shape {
   fill: var(--ib-bituin);
-  filter: drop-shadow(0 0 16px rgba(128,55,202,0.8));
+  filter: drop-shadow(0 0 16px rgba(144,190,233,0.75));
 }
 
 .star-pin--active .star-num {
@@ -71,6 +67,6 @@
 }
 
 @keyframes twinkle {
-  0%, 100% { fill: rgba(128,55,202,0.14); }
-  50%       { fill: rgba(128,55,202,0.32); }
+  0%, 100% { fill: rgba(144,190,233,0.12); }
+  50%       { fill: rgba(144,190,233,0.3); }
 }

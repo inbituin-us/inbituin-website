@@ -5,6 +5,22 @@
   position: relative;
 }
 
+@media (max-width: 640px) {
+  .header {
+    padding: 40px var(--ib-gutter) 32px;
+  }
+
+  .header__intro {
+    font-size: 16px;
+    margin-top: 20px;
+  }
+
+  .header__meta {
+    margin-top: 18px;
+    gap: 18px;
+  }
+}
+
 .header__title {
   font-family: var(--ib-font-display);
   font-weight: 500;
@@ -27,10 +43,10 @@
 
 .header__title-mark {
   font-style: normal;
-  color: var(--ib-bituin);
+  color: var(--ib-ember);
   display: inline-block;
   transform: translateY(-0.06em);
-  filter: drop-shadow(0 0 18px rgba(128,55,202,0.6));
+  filter: drop-shadow(0 0 18px rgba(128,55,202,0.7));
 }
 
 .header__intro {
@@ -75,7 +91,7 @@
   height: 6px;
   background: var(--ib-bituin);
   border-radius: 50%;
-  box-shadow: 0 0 12px rgba(128,55,202,0.7);
+  box-shadow: 0 0 12px rgba(144,190,233,0.7);
 }
 
 .meta-pip strong {

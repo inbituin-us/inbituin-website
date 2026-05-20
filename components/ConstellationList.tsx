@@ -17,7 +17,15 @@ interface ListCardProps {
   onClick: (id: string) => void;
 }
 
-function ListCard({ p, idx, active, compact, onHover, onLeave, onClick }: ListCardProps) {
+function ListCard({
+  p,
+  idx,
+  active,
+  compact,
+  onHover,
+  onLeave,
+  onClick,
+}: ListCardProps) {
   return (
     <button
       className={"card" + (active ? " card--active" : "")}
@@ -36,7 +44,9 @@ function ListCard({ p, idx, active, compact, onHover, onLeave, onClick }: ListCa
         </span>
         {!compact && <span className="card__perk">{p.perk}</span>}
       </span>
-      <span className="card__chev" aria-hidden="true">›</span>
+      <span className="card__chev" aria-hidden="true">
+        ›
+      </span>
     </button>
   );
 }
@@ -69,7 +79,7 @@ export default function ConstellationList({
   return (
     <aside className={"list" + (compact ? " list--compact" : "")}>
       <div className="list__head">
-        <div className="list__title">
+        {/* <div className="list__title">
           <span className="list__count">
             <em>{String(filtered.length).padStart(2, "0")}</em> stars in the constellation
           </span>
@@ -77,7 +87,7 @@ export default function ConstellationList({
             <span className="list__legend-dot" />
             Selected
           </span>
-        </div>
+        </div> */}
         <div className="list__chips">
           {types.map((t) => (
             <button

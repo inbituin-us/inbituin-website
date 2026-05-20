@@ -7,6 +7,7 @@ import "@/styles/nav.css";
 import "@/styles/header.css";
 import "@/styles/list.css";
 import "@/styles/map.css";
+import "@/styles/mobile-map.css";
 import "@/styles/pins.css";
 import "@/styles/popup.css";
 import "@/styles/foot.css";
