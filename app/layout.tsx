@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "@/styles/leaflet.css";
 import "@/styles/tokens.css";
 import "@/styles/globals.css";
@@ -16,9 +16,27 @@ import "@/styles/tweaks.css";
 export const metadata: Metadata = {
   title: "In Bituin",
   description: "Constellations of Filipino Creativity. Handcrafted · Heartfelt · Alive.",
+  manifest: "/manifest.webmanifest",
   icons: {
-    icon: "/assets/philippine-sun.png",
+    icon: [
+      { url: "/assets/philippine-sun.png", type: "image/png" },
+    ],
+    apple: [
+      { url: "/assets/philippine-sun.png", type: "image/png" },
+    ],
+    shortcut: "/assets/philippine-sun.png",
   },
+  appleWebApp: {
+    capable: true,
+    title: "In Bituin",
+    statusBarStyle: "black-translucent",
+    startupImage: "/assets/philippine-sun.png",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0f1538",
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

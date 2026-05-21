@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import type { Partner } from "@/data/partners";
 
 interface TypeCount {
@@ -55,8 +56,10 @@ interface MobileSheetProps {
   partners: Partner[];
   filtered: Partner[];
   active: Partner | null;
-  expanded: boolean;
+  sheetLevel: "peek" | "collapsed" | "expanded";
   onToggleExpanded: () => void;
+  onExpandUp: () => void;
+  onCollapseDown: () => void;
   onSelect: (id: string) => void;
   onClose: () => void;
 }
@@ -65,20 +68,43 @@ export function ConstellationMobileSheet({
   partners,
   filtered,
   active,
-  expanded,
+  sheetLevel,
   onToggleExpanded,
+  onExpandUp,
+  onCollapseDown,
   onSelect,
   onClose,
 }: MobileSheetProps) {
+  const touchStartY = useRef<number | null>(null);
   const activeIndex = active ? partners.findIndex((partner) => partner.id === active.id) : -1;
+  const handleLabel =
+    sheetLevel === "expanded" ? "Collapse business list" : "Expand business list";
+
+  const onTouchEnd = (y: number) => {
+    if (touchStartY.current === null || active) return;
+    const delta = y - touchStartY.current;
+    touchStartY.current = null;
+
+    if (delta < -28) {
+      onExpandUp();
+    } else if (delta > 28) {
+      onCollapseDown();
+    }
+  };
 
   return (
     <div className="mob-sheet" aria-label={active ? `${active.name} details` : "Business list"}>
       <button
         className="mob-sheet__handle"
-        aria-label={expanded ? "Collapse business list" : "Expand business list"}
+        aria-label={handleLabel}
         disabled={Boolean(active)}
         onClick={onToggleExpanded}
+        onTouchStart={(event) => {
+          touchStartY.current = event.changedTouches[0]?.clientY ?? null;
+        }}
+        onTouchEnd={(event) => {
+          onTouchEnd(event.changedTouches[0]?.clientY ?? 0);
+        }}
         type="button"
       />
       {active ? (

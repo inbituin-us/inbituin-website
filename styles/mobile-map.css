@@ -75,11 +75,11 @@
 
   .mob-top {
     position: absolute;
-    top: 60px;
+    top: 0;
     left: 0;
     right: 0;
     z-index: 30;
-    padding: 12px 18px 16px;
+    padding: calc(env(safe-area-inset-top, 0px) + 10px) 18px 14px;
     background: linear-gradient(
       180deg,
       rgba(15, 21, 56, 0.78) 0%,
@@ -169,7 +169,7 @@
 
   .mob-chips {
     position: absolute;
-    top: 168px;
+    top: calc(env(safe-area-inset-top, 0px) + 108px);
     left: 0;
     right: 0;
     z-index: 25;
@@ -253,6 +253,10 @@
     pointer-events: none;
   }
 
+  .mobile-map-screen.is-peek .mob-locate {
+    bottom: 152px;
+  }
+
   .mobile-map-screen.is-detail .mob-locate {
     bottom: 460px;
   }
@@ -279,6 +283,10 @@
     height: calc(100% - 180px);
   }
 
+  .mobile-map-screen.is-peek .mob-sheet {
+    height: 132px;
+  }
+
   .mobile-map-screen.is-detail .mob-sheet {
     height: 440px;
   }
@@ -291,6 +299,7 @@
     width: 100%;
     min-height: 18px;
     padding: 8px 0 6px;
+    touch-action: none;
   }
 
   .mob-sheet__handle:disabled {
