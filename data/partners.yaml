@@ -10,6 +10,7 @@
 # address     — full street address
 # lat / lng   — map coordinates (Google Maps → right-click → copy lat/lng)
 # logo        — public image path, e.g. "/assets/partner-logos/kabisera.png"
+# mapsUrl     — optional direct map/directions URL
 # perk        — short perk line on the list card
 # perkLong    — full perk text in the detail view
 # start / end — optional perk dates shown to users, e.g. "Jun 13" / "Jun 20"
@@ -73,17 +74,18 @@
   accent: "#ddd612"
 
 - id: salvaje
-  name: Salvaje
-  type: Bar
-  neighborhood: Jackson Heights · Queens
-  address: 79-11 Northern Blvd, Queens, NY 11372
-  lat: 40.7556531
-  lng: -73.8875948
+  name: Panaderya Salvaje
+  type: Bakery
+  neighborhood: Downtown · Jersey City
+  address: 9 Erie St, Jersey City, NJ 07302
+  lat: 40.7213171
+  lng: -74.0445177
   logo: /assets/partner-logos/salvaje-mark.png
+  mapsUrl: https://maps.app.goo.gl/su7HRk3vWtL1gQTN6
   perk: 15% discount
   perkLong: 15% discount on your purchase
   start: Jun 13
-  desc: A vivid Jackson Heights social club with cocktails, food, music, and an atmosphere made for gathering after dark.
+  desc: A Filipino bakery in Downtown Jersey City known for expressive pastries, savory bakes, and small-batch weekend drops that sell quickly.
   accent: "#5e7948"
 
 - id: kalye

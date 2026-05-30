@@ -7,6 +7,7 @@ export interface Partner {
   lat: number;
   lng: number;
   logo?: string;
+  mapsUrl?: string;
   perk: string;
   perkLong: string;
   start?: string | null;

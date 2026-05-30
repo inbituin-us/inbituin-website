@@ -57,7 +57,7 @@ function ListCard({
 interface ConstellationListProps {
   partners: Partner[];
   filtered: Partner[];
-  activeId: string;
+  activeId: string | null;
   compact: boolean;
   filter: string;
   types: TypeCount[];
@@ -82,6 +82,7 @@ export default function ConstellationList({
 
   useLayoutEffect(() => {
     const scrollEl = scrollRef.current;
+    if (!activeId) return;
     const activeCard = cardRefs.current[activeId];
     if (!scrollEl || !activeCard) return;
 

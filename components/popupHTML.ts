@@ -1,7 +1,9 @@
 import type { Partner } from "@/data/partners";
 
 export function popupHTML(p: Partner): string {
-  const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(p.address)}`;
+  const mapsUrl =
+    p.mapsUrl ??
+    `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(p.address)}`;
   const period = [p.start, p.end].filter(Boolean).join(" / ");
 
   return `

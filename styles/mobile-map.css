@@ -78,16 +78,16 @@
     pointer-events: auto;
   }
 
-  .mob-top__row {
+  .mob-top__lockup {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    white-space: nowrap;
+    align-items: flex-start;
+    gap: 14px;
   }
 
   .mob-top__mark {
-    width: 22px;
-    height: 22px;
+    width: 40px;
+    height: 40px;
+    margin-top: 2px;
     background-color: var(--ib-gold);
     mask-image: url("/assets/graphics/04-LockUp-Star-White.png");
     mask-position: center;
@@ -101,17 +101,25 @@
     flex: 0 0 auto;
   }
 
+  .mob-top__copy {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
   .mob-top__brand {
+    display: block;
     color: var(--ib-gold);
-    font-family: var(--ib-font-display);
-    font-size: 18px;
-    font-weight: 500;
+    font-family: var(--ib-font-mono);
+    font-size: 10px;
+    font-weight: 700;
     line-height: 1;
-    letter-spacing: -0.01em;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
   }
 
   .mob-top__rsvp {
     margin-left: auto;
+    margin-top: 2px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -127,30 +135,20 @@
   }
 
   .mob-top__title {
-    margin-top: 6px;
+    margin-top: 4px;
     display: flex;
     align-items: baseline;
-    gap: 6px;
-    white-space: nowrap;
-  }
-
-  .mob-top__title h1,
-  .mob-top__title em {
-    margin: 0;
-    color: var(--ib-gold);
-    font-family: var(--ib-font-display);
-    font-size: 28px;
-    line-height: 1;
-    letter-spacing: -0.02em;
   }
 
   .mob-top__title h1 {
+    margin: 0;
+    color: var(--ib-gold);
+    font-family: var(--ib-font-display);
+    font-size: 29px;
     font-weight: 500;
-  }
-
-  .mob-top__title em {
-    font-style: normal;
-    font-weight: 500;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
   }
 
   .mob-chips {

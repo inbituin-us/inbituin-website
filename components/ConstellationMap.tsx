@@ -40,25 +40,49 @@ function escapeAttr(value: string): string {
     .replace(/>/g, "&gt;");
 }
 
+interface PartnerMarkerLayout {
+  width: number;
+  height: number;
+  starSize: number;
+  logoWidth: number;
+  logoHeight: number;
+  gap: number;
+}
+
 function withPartnerLogo(
   pinHTML: string,
   logo: string | undefined,
   name: string,
   active: boolean,
+  layout?: PartnerMarkerLayout,
 ): string {
   if (!logo) return pinHTML;
 
-  const cls = "partner-marker" + (active ? " partner-marker--active" : "");
-  const markerWidth = active ? 76 : 60;
-  const markerHeight = active ? 112 : 90;
-  const logoWidth = active ? 100 : 100;
-  const logoHeight = active ? 100 : 100;
+  const lowerName = name.toLowerCase();
+  const logoBelow = lowerName.includes("lackawanna");
+  const cls =
+    "partner-marker" +
+    (active ? " partner-marker--active" : "") +
+    (logoBelow ? " partner-marker--logo-bottom" : "");
+  const markerWidth = layout?.width ?? (active ? 76 : 60);
+  const markerHeight = layout?.height ?? (active ? 106 : 77);
+  const starSize = layout?.starSize ?? (active ? 72 : 52);
+  const logoWidth = layout?.logoWidth ?? (active ? 34 : 26);
+  const logoHeight = layout?.logoHeight ?? (active ? 22 : 16);
+  const gap = layout?.gap ?? (active ? 12 : 9);
+  const starTop = logoBelow ? 0 : logoHeight + gap;
+  const logoTop = logoBelow ? starSize + gap : 0;
+  const starLeft = (markerWidth - starSize) / 2;
+  const logoLeft = (markerWidth - logoWidth) / 2;
+
   return `
-    <div class="${cls}" style="width:${markerWidth}px;height:${markerHeight}px;display:grid;justify-items:center;align-content:end;gap:${active ? 12 : 9}px;">
-      <span class="partner-marker__logo" style="display:flex;align-items:center;justify-content:center;padding:0;border:0;background:transparent;box-shadow:none;">
+    <div class="${cls}" style="width:${markerWidth}px;height:${markerHeight}px;position:relative;">
+      <span class="partner-marker__pin" style="position:absolute;left:${starLeft}px;top:${starTop}px;width:${starSize}px;height:${starSize}px;">
+        ${pinHTML}
+      </span>
+      <span class="partner-marker__logo" style="position:absolute;left:${logoLeft}px;top:${logoTop}px;width:${logoWidth}px;height:${logoHeight}px;display:flex;align-items:center;justify-content:center;padding:0;border:0;background:transparent;box-shadow:none;">
         <img src="${escapeAttr(logo)}" alt="${escapeAttr(name)} logo" loading="lazy" width="${logoWidth}" height="${logoHeight}" style="display:block;width:${logoWidth}px;height:${logoHeight}px;object-fit:contain;" />
       </span>
-      ${pinHTML}
     </div>`;
 }
 
@@ -67,6 +91,7 @@ function starIconHTML(
   active: boolean,
   logo?: string,
   name = "",
+  layout?: PartnerMarkerLayout,
 ): string {
   const cls = "star-pin" + (active ? " star-pin--active" : "");
   return withPartnerLogo(
@@ -84,6 +109,7 @@ function starIconHTML(
     logo,
     name,
     active,
+    layout,
   );
 }
 
@@ -92,6 +118,7 @@ function sunIconHTML(
   active: boolean,
   logo?: string,
   name = "",
+  layout?: PartnerMarkerLayout,
 ): string {
   const cls = "star-pin sun-pin" + (active ? " star-pin--active" : "");
   const rays: string[] = [];
@@ -113,6 +140,7 @@ function sunIconHTML(
     logo,
     name,
     active,
+    layout,
   );
 }
 
@@ -121,6 +149,7 @@ function pinIconHTML(
   active: boolean,
   logo?: string,
   name = "",
+  layout?: PartnerMarkerLayout,
 ): string {
   const cls = "star-pin pin-pin" + (active ? " star-pin--active" : "");
   return withPartnerLogo(
@@ -135,17 +164,49 @@ function pinIconHTML(
     logo,
     name,
     active,
+    layout,
   );
 }
 
 const PIN_RENDERERS: Record<
   string,
-  (num: string, active: boolean, logo?: string, name?: string) => string
+  (
+    num: string,
+    active: boolean,
+    logo?: string,
+    name?: string,
+    layout?: PartnerMarkerLayout,
+  ) => string
 > = {
   star: starIconHTML,
   sun: sunIconHTML,
   classic: pinIconHTML,
 };
+
+function getPartnerMarkerLayout(active: boolean, mobileMode: boolean): PartnerMarkerLayout {
+  if (mobileMode) {
+    return active
+      ? { width: 166, height: 124, starSize: 52, logoWidth: 129, logoHeight: 57, gap: 15 }
+      : { width: 134, height: 94, starSize: 32, logoWidth: 102, logoHeight: 45, gap: 13 };
+  }
+
+  return active
+    ? { width: 218, height: 178, starSize: 72, logoWidth: 168, logoHeight: 84, gap: 18 }
+    : { width: 180, height: 142, starSize: 52, logoWidth: 138, logoHeight: 69, gap: 16 };
+}
+
+function getPartnerMarkerAnchor(
+  layout: PartnerMarkerLayout,
+  name: string,
+): [number, number] {
+  const logoBelow = name.toLowerCase().includes("lackawanna");
+  return [
+    layout.width / 2,
+    logoBelow
+      ? layout.starSize / 2
+      : layout.logoHeight + layout.gap + layout.starSize / 2,
+  ];
+}
 
 interface ConstellationMapProps {
   partners: Partner[];
@@ -264,20 +325,18 @@ export default function ConstellationMap({
 
     partners.forEach((p, idx) => {
       const num = String(idx + 1).padStart(2, "0");
+      const layout = p.logo ? getPartnerMarkerLayout(false, mobileMode) : null;
+      const anchor = layout ? getPartnerMarkerAnchor(layout, p.name) : null;
       const icon = L.divIcon({
-        html: render(num, false, p.logo, p.name),
+        html: render(num, false, p.logo, p.name, layout ?? undefined),
         className: "",
-        iconSize: p.logo
-          ? mobileMode
-            ? [54, 82]
-            : [60, 90]
+        iconSize: layout
+          ? [layout.width, layout.height]
           : mobileMode
             ? [32, 32]
             : [36, 36],
-        iconAnchor: p.logo
-          ? mobileMode
-            ? [27, 74]
-            : [30, 82]
+        iconAnchor: anchor
+          ? anchor
           : mobileMode
             ? [16, 16]
             : [18, 18],
@@ -333,17 +392,13 @@ export default function ConstellationMap({
       if (!m) return;
       const isActive = p.id === activeId;
       const num = String(idx + 1).padStart(2, "0");
+      const layout = p.logo ? getPartnerMarkerLayout(isActive, mobileMode) : null;
+      const anchor = layout ? getPartnerMarkerAnchor(layout, p.name) : null;
       const icon = L.divIcon({
-        html: render(num, isActive, p.logo, p.name),
+        html: render(num, isActive, p.logo, p.name, layout ?? undefined),
         className: "",
-        iconSize: p.logo
-          ? isActive
-            ? mobileMode
-              ? [68, 100]
-              : [76, 112]
-            : mobileMode
-              ? [54, 82]
-              : [60, 90]
+        iconSize: layout
+          ? [layout.width, layout.height]
           : isActive
             ? mobileMode
               ? [52, 52]
@@ -351,14 +406,8 @@ export default function ConstellationMap({
             : mobileMode
               ? [32, 32]
               : [36, 36],
-        iconAnchor: p.logo
-          ? isActive
-            ? mobileMode
-              ? [34, 88]
-              : [38, 98]
-            : mobileMode
-              ? [27, 74]
-              : [30, 82]
+        iconAnchor: anchor
+          ? anchor
           : isActive
             ? mobileMode
               ? [26, 26]

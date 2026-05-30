@@ -35,7 +35,7 @@ export default function ConstellationMapApp({
     null,
   );
   const [viewportHeight, setViewportHeight] = useState(874);
-  const [activeId, setActiveId] = useState<string>(partners[0].id);
+  const [activeId, setActiveId] = useState<string | null>(null);
   const [mobileActiveId, setMobileActiveId] = useState<string | null>(null);
   const [hoverId, setHoverId] = useState<string | null>(null);
   const [filter, setFilter] = useState("All");

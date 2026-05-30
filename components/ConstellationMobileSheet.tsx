@@ -8,16 +8,17 @@ const RSVP_URL = "https://partiful.com/e/q0vog3c2ldApTwNfSQbL?c=8NqPm6FG";
 export function ConstellationMobileTopChrome() {
   return (
     <div className="mob-top">
-      <div className="mob-top__row">
+      <div className="mob-top__lockup">
         <span className="mob-top__mark" aria-hidden="true" />
-        <span className="mob-top__brand">In Bituin</span>
+        <div className="mob-top__copy">
+          <span className="mob-top__brand">In Bituin</span>
+          <div className="mob-top__title">
+            <h1>The Living Canvas</h1>
+          </div>
+        </div>
         <a className="mob-top__rsvp" href={RSVP_URL} target="_blank" rel="noopener">
           RSVP
         </a>
-      </div>
-      <div className="mob-top__title">
-        <h1>The Living</h1>
-        <em>Canvas</em>
       </div>
     </div>
   );
@@ -187,9 +188,9 @@ interface MobileDetailProps {
 }
 
 function MobileDetail({ partner, onClose }: MobileDetailProps) {
-  const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
-    partner.address,
-  )}`;
+  const mapsUrl =
+    partner.mapsUrl ??
+    `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(partner.address)}`;
   const period = [partner.start, partner.end].filter(Boolean).join(" / ");
 
   return (
