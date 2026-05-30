@@ -8,7 +8,6 @@ import {
   ConstellationMobileSheet,
   ConstellationMobileTopChrome,
 } from "@/components/ConstellationMobileSheet";
-import TweaksPanel from "@/components/TweaksPanel";
 import type { Partner } from "@/data/partners";
 
 const ConstellationMap = dynamic(
@@ -272,14 +271,6 @@ export default function ConstellationMapApp({
         </div>
       </section> */}
 
-      <TweaksPanel
-        tileStyle={tweaks.tileStyle}
-        pinStyle={tweaks.pinStyle}
-        compactList={tweaks.compactList}
-        onTileStyle={(v) => setTweak("tileStyle", v)}
-        onPinStyle={(v) => setTweak("pinStyle", v)}
-        onCompactList={(v) => setTweak("compactList", v)}
-      />
     </div>
   );
 
