@@ -3,7 +3,7 @@
   margin: 0 auto;
   padding: 0 var(--ib-gutter) 96px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1.2fr 0.9fr 1.05fr;
   gap: 28px;
   align-items: start;
 }
@@ -11,8 +11,9 @@
 .cue {
   display: flex;
   gap: 18px;
-  padding: 24px 0;
-  border-top: 1px solid var(--ib-rule-strong);
+  padding: 28px 0 24px;
+  border-top: 0;
+  background: url('/assets/graphics/stitch-line-solid-calamansi.png') left top / 180px 6px repeat-x;
 }
 
 .cue__num {

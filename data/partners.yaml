@@ -1,0 +1,101 @@
+# In Bituin — Constellation Map partner businesses
+#
+# To add a spot: copy an existing block (from "- id:" through "accent:"),
+# paste below, and fill in the fields.
+#
+# id          — short slug, lowercase, no spaces (e.g. "kabisera")
+# name        — business name shown on the map
+# type        — Restaurant | Café | Bakery | Bar | Boutique | Shop (used for filters)
+# neighborhood — area label, e.g. "Williamsburg · Brooklyn"
+# address     — full street address
+# lat / lng   — map coordinates (Google Maps → right-click → copy lat/lng)
+# logo        — public image path, e.g. "/assets/partner-logos/kabisera.png"
+# perk        — short perk line on the list card
+# perkLong    — full perk text in the detail view
+# start / end — optional perk dates shown to users, e.g. "Jun 13" / "Jun 20"
+# desc        — one or two sentence description
+# accent      — hex color for badges and highlights
+
+- id: lackawanna-cafe
+  name: Lackawanna Cafe
+  type: Café
+  neighborhood: Grove Street · Jersey City
+  address: 295 Grove St, Jersey City, NJ 07302
+  lat: 40.718536
+  lng: -74.043793
+  logo: /assets/partner-logos/lackawanna-cafe-mark.png
+  perk: BOGO drink with special Bituin drink
+  perkLong: Buy one drink, get one with the special Bituin drink
+  start: Jun 13
+  desc: A neighborhood coffee stop near Grove Street with a calm back-patio feel, steady espresso drinks, and room to linger between gallery moments.
+  accent: "#ddd612"
+
+- id: tradisyon
+  name: Tradisyon
+  type: Restaurant
+  neighborhood: Midtown · Manhattan
+  address: 135 W 50th St, New York, NY 10020
+  lat: 40.7610023
+  lng: -73.9818277
+  logo: /assets/partner-logos/tradisyon-mark.png
+  perk: Free drink with every purchase
+  perkLong: Free drink with every purchase
+  start: Jun 13, 2026
+  desc: Filipino comfort food in Midtown, built around familiar dishes, warm bowls, and the flavors many of us grew up reaching for.
+  accent: "#d6ce93"
+
+- id: binondo-by-kabisera
+  name: Binondo by Kabisera
+  type: Restaurant
+  neighborhood: Chinatown · Manhattan
+  address: 50 E Broadway, New York, NY 10002
+  lat: 40.7137974
+  lng: -73.9956861
+  logo: /assets/partner-logos/binondo-by-kabisera-mark.png
+  perk: 15% discount w/ $25+ purchase
+  perkLong: 15% discount with a purchase of $25 or more
+  start: Jun 13
+  desc: Filipino-Chinese cooking in Chinatown, honoring Binondo through shared plates, nostalgic flavors, and a lively dining room.
+  accent: "#e16036"
+
+- id: millies-coffee-co
+  name: Millie's Coffee Co
+  type: Café
+  neighborhood: Astoria · Queens
+  address: 25-83 31st St, 1st Floor, Astoria, NY 11102
+  lat: 40.768381
+  lng: -73.9194716
+  logo: /assets/partner-logos/millies-coffee-co-mark.png
+  perk: 15% discount
+  perkLong: 15% discount on your purchase
+  start: Jun 13
+  desc: A Filipino-inspired Astoria coffee shop with ube lattes, thoughtful drinks, and a bright, easygoing neighborhood rhythm.
+  accent: "#ddd612"
+
+- id: salvaje
+  name: Salvaje
+  type: Bar
+  neighborhood: Jackson Heights · Queens
+  address: 79-11 Northern Blvd, Queens, NY 11372
+  lat: 40.7556531
+  lng: -73.8875948
+  logo: /assets/partner-logos/salvaje-mark.png
+  perk: 15% discount
+  perkLong: 15% discount on your purchase
+  start: Jun 13
+  desc: A vivid Jackson Heights social club with cocktails, food, music, and an atmosphere made for gathering after dark.
+  accent: "#5e7948"
+
+- id: kalye
+  name: Kalye
+  type: Restaurant
+  neighborhood: Lower East Side · Manhattan
+  address: 111 Rivington St, New York, NY 10002
+  lat: 40.7198165
+  lng: -73.9879359
+  logo: /assets/partner-logos/kalye-mark.png
+  perk: 15% discount
+  perkLong: 15% discount on your purchase
+  start: Jun 13
+  desc: Filipino food and hospitality on the Lower East Side, named for the street and built for shared meals, barkada dinners, and celebration.
+  accent: "#f5c842"

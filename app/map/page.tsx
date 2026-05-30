@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ConstellationMapApp from "@/components/ConstellationMapApp";
+import { loadPartners } from "@/data/loadPartners";
 
 export const metadata: Metadata = {
   title: "Constellation Map · In Bituin",
@@ -8,5 +9,6 @@ export const metadata: Metadata = {
 };
 
 export default function MapPage() {
-  return <ConstellationMapApp />;
+  const partners = loadPartners();
+  return <ConstellationMapApp partners={partners} />;
 }

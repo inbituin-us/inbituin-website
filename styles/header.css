@@ -1,7 +1,7 @@
 .header {
   max-width: var(--ib-container-wide);
   margin: 0 auto;
-  padding: 80px var(--ib-gutter) 56px;
+  padding: 88px var(--ib-gutter) 56px;
   position: relative;
 }
 
@@ -21,12 +21,18 @@
   }
 }
 
+.header__title-row {
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(20px, 4vw, 56px);
+}
+
 .header__title {
   font-family: var(--ib-font-display);
   font-weight: 500;
-  font-size: clamp(56px, 9vw, 132px);
+  font-size: clamp(64px, 9vw, 128px);
   line-height: 0.98;
-  letter-spacing: -0.015em;
+  letter-spacing: var(--ib-tracking-display);
   color: var(--ib-fg-display);
   margin: 0;
   display: flex;
@@ -35,25 +41,42 @@
   flex-wrap: wrap;
 }
 
+.header__lockup {
+  flex: 0 0 auto;
+  width: clamp(96px, 13vw, 176px);
+  aspect-ratio: 1;
+  margin-bottom: 0.16em;
+  display: block;
+  background-color: var(--ib-linen);
+  mask-image: url('/assets/graphics/04-LockUp-Star-White.png');
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  -webkit-mask-image: url('/assets/graphics/04-LockUp-Star-White.png');
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  filter: drop-shadow(0 2px 5px rgba(86, 44, 44, 0.18));
+}
+
 .header__title em {
   font-style: italic;
-  color: var(--ib-bituin);
+  color: var(--ib-linen);
   font-weight: 400;
 }
 
 .header__title-mark {
   font-style: normal;
-  color: var(--ib-ember);
+  color: var(--ib-calamansi);
   display: inline-block;
   transform: translateY(-0.06em);
-  filter: drop-shadow(0 0 18px rgba(128,55,202,0.7));
 }
 
 .header__intro {
   max-width: 760px;
   margin-top: 32px;
-  font-size: 19px;
-  line-height: 1.55;
+  font-size: 18px;
+  line-height: 1.7;
   color: var(--ib-fg);
 }
 
@@ -68,10 +91,10 @@
 }
 
 .header__meta {
-  margin-top: 28px;
+  margin-top: 24px;
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 18px;
   flex-wrap: wrap;
 }
 
@@ -80,10 +103,11 @@
   align-items: center;
   gap: 10px;
   font-size: 12px;
-  font-weight: 600;
+  font-family: var(--ib-font-mono);
+  font-weight: 400;
   letter-spacing: var(--ib-tracking-caps);
   text-transform: uppercase;
-  color: var(--ib-fg-muted);
+  color: var(--ib-linen);
 }
 
 .meta-pip__dot {
@@ -91,10 +115,22 @@
   height: 6px;
   background: var(--ib-bituin);
   border-radius: 50%;
-  box-shadow: 0 0 12px rgba(144,190,233,0.7);
 }
 
 .meta-pip strong {
-  color: var(--ib-fg-display);
+  color: var(--ib-calamansi);
   font-weight: 600;
+}
+
+@media (max-width: 760px) {
+  .header__title-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .header__lockup {
+    width: 128px;
+    margin-bottom: 0;
+  }
 }

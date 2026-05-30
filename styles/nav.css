@@ -2,16 +2,14 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  background: rgba(15, 21, 56, 0.72);
-  border-bottom: 1px solid var(--ib-rule);
+  background: rgba(94, 121, 72, 0.94);
+  border-bottom: 1.5px solid var(--ib-rule-dark);
 }
 
 .nav__inner {
   max-width: var(--ib-container-wide);
   margin: 0 auto;
-  padding: 18px var(--ib-gutter);
+  padding: 14px var(--ib-gutter);
   display: flex;
   align-items: center;
   gap: 24px;
@@ -25,18 +23,43 @@
 }
 
 .nav__brand-mark {
-  width: 28px;
-  height: 28px;
-  object-fit: contain;
-  filter: brightness(0) saturate(100%) invert(91%) sepia(8%) saturate(442%) hue-rotate(11deg) brightness(105%) contrast(92%);
+  width: 34px;
+  height: 34px;
+  background-color: var(--ib-linen);
+  mask-image: url('/assets/graphics/04-LockUp-Star-White.png');
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  -webkit-mask-image: url('/assets/graphics/04-LockUp-Star-White.png');
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 1px 3px rgba(86, 44, 44, 0.2));
 }
 
 .nav__brand-text {
-  font-family: var(--ib-font-display);
-  font-weight: 500;
-  font-size: 26px;
+  display: grid;
+  gap: 2px;
   color: var(--ib-fg-display);
-  letter-spacing: -0.01em;
+}
+
+.nav__brand-eyebrow {
+  font-family: var(--ib-font-mono);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.nav__brand-title {
+  font-family: var(--ib-font-display);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 0.92;
+  color: var(--ib-fg-display);
+  letter-spacing: var(--ib-tracking-display);
 }
 
 .nav__links {
@@ -49,7 +72,7 @@
 .nav__link {
   font-size: 14px;
   font-weight: 500;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   color: var(--ib-fg-muted);
   transition: color var(--ib-dur-2) var(--ib-ease);
   position: relative;
@@ -68,15 +91,16 @@
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -22px;
-  height: 2px;
-  background: var(--ib-bituin);
+  bottom: -18px;
+  height: 1.5px;
+  background: var(--ib-calamansi);
 }
 
 .nav__rsvp {
+  border-radius: var(--ib-radius-pill);
   background: var(--ib-bituin);
   color: var(--ib-accent-on);
-  padding: 10px 18px;
+  padding: 11px 18px;
   font-weight: 600;
   font-size: 12px;
   letter-spacing: var(--ib-tracking-caps);
@@ -86,4 +110,10 @@
 
 .nav__rsvp:hover {
   background: var(--ib-bituin-soft);
+}
+
+@media (max-width: 900px) {
+  .nav__links {
+    display: none;
+  }
 }

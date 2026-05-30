@@ -15,27 +15,27 @@ import "@/styles/tweaks.css";
 
 export const metadata: Metadata = {
   title: "In Bituin",
-  description: "Constellations of Filipino Creativity. Handcrafted · Heartfelt · Alive.",
+  description: "The Living Canvas — a constellation of Filipino creativity grounded in kapwa.",
   manifest: "/manifest.webmanifest",
   icons: {
     icon: [
-      { url: "/assets/philippine-sun.png", type: "image/png" },
+      { url: "/assets/graphics/philippine-sun-calamansi.png", type: "image/png" },
     ],
     apple: [
-      { url: "/assets/philippine-sun.png", type: "image/png" },
+      { url: "/assets/graphics/philippine-sun-calamansi.png", type: "image/png" },
     ],
-    shortcut: "/assets/philippine-sun.png",
+    shortcut: "/assets/graphics/philippine-sun-calamansi.png",
   },
   appleWebApp: {
     capable: true,
     title: "In Bituin",
     statusBarStyle: "black-translucent",
-    startupImage: "/assets/philippine-sun.png",
+    startupImage: "/assets/graphics/philippine-sun-calamansi.png",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0f1538",
+  themeColor: "#5e7948",
   viewportFit: "cover",
 };
 

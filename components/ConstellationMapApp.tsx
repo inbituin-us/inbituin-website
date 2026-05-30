@@ -9,9 +9,12 @@ import {
   ConstellationMobileTopChrome,
 } from "@/components/ConstellationMobileSheet";
 import TweaksPanel from "@/components/TweaksPanel";
-import { PARTNERS } from "@/data/partners";
+import type { Partner } from "@/data/partners";
 
-const ConstellationMap = dynamic(() => import("@/components/ConstellationMap"), { ssr: false });
+const ConstellationMap = dynamic(
+  () => import("@/components/ConstellationMap"),
+  { ssr: false },
+);
 
 interface Tweaks {
   tileStyle: string;
@@ -21,21 +24,29 @@ interface Tweaks {
 
 type MobileSheetLevel = "peek" | "collapsed" | "expanded";
 
-export default function ConstellationMapApp() {
-  const partners = PARTNERS;
+interface ConstellationMapAppProps {
+  partners: Partner[];
+}
 
-  const [isMobileViewport, setIsMobileViewport] = useState<boolean | null>(null);
+export default function ConstellationMapApp({
+  partners,
+}: ConstellationMapAppProps) {
+  const [isMobileViewport, setIsMobileViewport] = useState<boolean | null>(
+    null,
+  );
   const [viewportHeight, setViewportHeight] = useState(874);
   const [activeId, setActiveId] = useState<string>(partners[0].id);
   const [mobileActiveId, setMobileActiveId] = useState<string | null>(null);
   const [hoverId, setHoverId] = useState<string | null>(null);
   const [filter, setFilter] = useState("All");
-  const [mobileSheetLevel, setMobileSheetLevel] = useState<MobileSheetLevel>("collapsed");
+  const [mobileSheetLevel, setMobileSheetLevel] =
+    useState<MobileSheetLevel>("collapsed");
+  const [mobileSheetDragHeight, setMobileSheetDragHeight] = useState<number | null>(null);
   const [locateRequest, setLocateRequest] = useState(0);
   const [tweaks, setTweaks] = useState<Tweaks>({
-    tileStyle: "canopy",
+    tileStyle: "paper",
     pinStyle: "star",
-    compactList: true,
+    compactList: false,
   });
 
   const setTweak = <K extends keyof Tweaks>(key: K, value: Tweaks[K]) => {
@@ -71,12 +82,13 @@ export default function ConstellationMapApp() {
   }, [partners]);
 
   const filtered = useMemo(
-    () => (filter === "All" ? partners : partners.filter((p) => p.type === filter)),
-    [filter, partners]
+    () =>
+      filter === "All" ? partners : partners.filter((p) => p.type === filter),
+    [filter, partners],
   );
 
   const mobileActive = mobileActiveId
-    ? partners.find((partner) => partner.id === mobileActiveId) ?? null
+    ? (partners.find((partner) => partner.id === mobileActiveId) ?? null)
     : null;
   const mobileSheetHeight = mobileActive
     ? 440
@@ -85,6 +97,12 @@ export default function ConstellationMapApp() {
       : mobileSheetLevel === "peek"
         ? 132
         : 360;
+  const mobileSheetSnapHeights = {
+    peek: 132,
+    collapsed: 360,
+    expanded: Math.max(360, viewportHeight - 180),
+  };
+  const effectiveMobileSheetHeight = mobileSheetDragHeight ?? mobileSheetHeight;
   const mobileClassName =
     "mobile-map-screen" +
     (mobileSheetLevel === "expanded" && !mobileActive ? " is-expanded" : "") +
@@ -98,14 +116,14 @@ export default function ConstellationMapApp() {
         activeId={mobileActiveId}
         setActiveId={setMobileActiveId}
         hoverId={null}
-        tileKey="canopy"
+        tileKey="paper"
         pinStyle="star"
         mobileMode
-        sheetHeight={mobileSheetHeight}
+        sheetHeight={effectiveMobileSheetHeight}
         locateRequest={locateRequest}
       />
 
-      <ConstellationMobileTopChrome types={types} filter={filter} onFilter={setFilter} />
+      <ConstellationMobileTopChrome />
 
       <button
         className="mob-locate"
@@ -132,13 +150,18 @@ export default function ConstellationMapApp() {
         filtered={filtered}
         active={mobileActive}
         sheetLevel={mobileSheetLevel}
+        sheetHeight={effectiveMobileSheetHeight}
+        snapHeights={mobileSheetSnapHeights}
         onToggleExpanded={() =>
-          setMobileSheetLevel((level) => (level === "expanded" ? "collapsed" : "expanded"))
+          setMobileSheetLevel((level) =>
+            level === "expanded" ? "collapsed" : "expanded",
+          )
         }
-        onExpandUp={() => setMobileSheetLevel("expanded")}
-        onCollapseDown={() =>
-          setMobileSheetLevel((level) => (level === "expanded" ? "collapsed" : "peek"))
-        }
+        onDragHeight={setMobileSheetDragHeight}
+        onSnapLevel={(level) => {
+          setMobileSheetDragHeight(null);
+          setMobileSheetLevel(level);
+        }}
         onSelect={(id) => {
           setMobileSheetLevel("collapsed");
           setMobileActiveId(id);
@@ -164,28 +187,30 @@ export default function ConstellationMapApp() {
       <Nav />
 
       <header className="header">
-        <h1 className="header__title">
-          <span>Constellation</span>
-          <span className="header__title-mark">✦</span>
-          <em>Map</em>
-        </h1>
+        <div className="header__title-row">
+          <h1 className="header__title">
+            <span>The Living</span>
+            <em>Canvas</em>
+          </h1>
+          <span
+            className="header__lockup"
+            role="img"
+            aria-label="In Bituin star lockup"
+          />
+        </div>
         <p className="header__intro">
-          In celebration of <strong>In Bituin: The Living Canvas</strong>, we&apos;ve gathered a
-          small constellation of Filipino-owned spots across NYC — restaurants, cafés, bakeries,
-          record shops — each holding an exclusive perk for our community. Bop between the gallery
-          and the after-party, gather your friends, and bring the celebration{" "}
-          <em>beyond the canvas.</em>
+          A <strong>pre-game map</strong> for guests to bop around the city -
+          linking up with friends between the gallery and the after party. We
+          partner with <strong>local restaurants &amp; businesses</strong> who
+          offer exclusive perks to our community in exchange for foot traffic on{" "}
+          <strong>Philippine Independence Day.</strong>
         </p>
         <div className="header__meta">
           <span className="meta-pip">
             <span className="meta-pip__dot" />
             <span>
-              <strong>{partners.length}</strong> spots
+              <strong>Saturday</strong> - June 13, 2026
             </span>
-          </span>
-          <span className="meta-pip">
-            <span className="meta-pip__dot" />
-            <span>Jun 13, 2026</span>
           </span>
         </div>
       </header>
@@ -214,14 +239,14 @@ export default function ConstellationMapApp() {
         />
       </section>
 
-      <section className="foot-cue">
+      {/* <section className="foot-cue">
         <div className="cue">
           <span className="cue__num">01</span>
           <div>
             <h3 className="cue__title">Drop in.</h3>
             <p className="cue__body">
               Pick a star, get directions, mention <em>In Bituin</em> at the counter. Each spot has
-              set aside something small for us — that&apos;s the whole point.
+              set aside something small for us — a quiet marker of connection.
             </p>
           </div>
         </div>
@@ -230,8 +255,8 @@ export default function ConstellationMapApp() {
           <div>
             <h3 className="cue__title">Collect your stars.</h3>
             <p className="cue__body">
-              Check in at any three spots between Jun 12 and Jun 27, and we&apos;ll pull you into
-              the raffle at the gallery close.
+              Check in at any three spots between Jun 12 and Jun 27, and we&apos;ll pull your name
+              into the raffle at the gallery close.
             </p>
           </div>
         </div>
@@ -240,12 +265,12 @@ export default function ConstellationMapApp() {
           <div>
             <h3 className="cue__title">Bring the constellation home.</h3>
             <p className="cue__body">
-              Tag <em>@inbituin</em> from any of these spots — we&apos;ll repost the brightest ones
-              across the weekend.
+              Tag <em>@inbituin</em> from any of these places — we&apos;ll gather the brightest
+              notes across the weekend.
             </p>
           </div>
         </div>
-      </section>
+      </section> */}
 
       <TweaksPanel
         tileStyle={tweaks.tileStyle}
@@ -260,7 +285,11 @@ export default function ConstellationMapApp() {
 
   return (
     <div className="page">
-      {isMobileViewport === null ? null : isMobileViewport ? mobileScreen : desktopScreen}
+      {isMobileViewport === null
+        ? null
+        : isMobileViewport
+          ? mobileScreen
+          : desktopScreen}
     </div>
   );
 }

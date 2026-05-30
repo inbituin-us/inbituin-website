@@ -1,0 +1,274 @@
+/* =====================================================================
+   IN BITUIN — Core tokens
+   Constellations of Filipino Creativity. Handcrafted · Heartfelt · Alive.
+   =====================================================================
+   Pulled from the brand collateral (The Living Canvas poster, Philippine
+   Sun emblem, Visayan textile patterns). The system is intentionally
+   small: a forest-canopy green ground, an electric "bituin" yellow that
+   acts as a star, and a cream the color of unbleached abaca paper.
+   ===================================================================== */
+
+/* ---- 1. Webfonts ----------------------------------------------------- */
+/* NOTE: No font files were supplied with this brand. The serif on the
+   poster is a high-contrast transitional/garalde face; the sans is a
+   geometric humanist. Cormorant Garamond + DM Sans are the closest
+   Google-Fonts matches and are loaded here as a substitution.
+   → Replace with the production faces when files are provided.        */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  /* ---- 2. Brand palette --------------------------------------------- */
+  /* Night-sky variant — navy ground, electric purple, light sky blue. */
+  --ib-narra-darkest:  #060a22;  /* deepest navy                       */
+  --ib-narra-deep:     #0f1538;  /* shadow / sunken surfaces           */
+  --ib-canopy:         #2e316c;  /* the dominant brand ground          */
+  --ib-canopy-mid:     #1c60a0;  /* elevated card                      */
+  --ib-canopy-light:   #3a7ec0;  /* highlight                          */
+  --ib-leaf:           #6b8fc4;  /* hover / softer accents             */
+
+  /* The star. */
+  --ib-bituin:         #90bee9;  /* light sky blue — the star          */
+  --ib-bituin-soft:    #7daed8;  /* hover / pressed star               */
+  --ib-bituin-dim:     #4d80a8;  /* on-light surfaces                  */
+
+  /* Cool greys & paper — cool-leaning neutrals on the night sky.      */
+  --ib-abaca:          #cfd8e3;  /* primary body text                  */
+  --ib-abaca-soft:     #a8b3c2;  /* secondary text on dark             */
+  --ib-abaca-paper:    #eef2f7;  /* light-mode background              */
+  --ib-abaca-deep:     #7a8499;  /* tertiary text on dark              */
+
+  /* A whisper of warmth, used very rarely (link underlines, ember).   */
+  --ib-ember:          #8037ca;  /* electric purple                    */
+
+  /* ---- 3. Semantic surfaces (dark-first) ---------------------------- */
+  --ib-bg:             var(--ib-canopy);          /* page              */
+  --ib-bg-elevated:    var(--ib-canopy-mid);      /* card on canopy    */
+  --ib-bg-sunken:      var(--ib-narra-deep);      /* recess, footer    */
+  --ib-bg-paper:       var(--ib-abaca-paper);     /* light surfaces    */
+
+  /* Foreground roles */
+  --ib-fg:             var(--ib-abaca);           /* default body text */
+  --ib-fg-muted:       var(--ib-abaca-soft);      /* meta, captions    */
+  --ib-fg-dim:         var(--ib-abaca-deep);      /* disabled / hint   */
+  --ib-fg-display:     #e8eef5;                   /* serif headlines   */
+  --ib-fg-on-paper:    var(--ib-narra-deep);      /* text on cream     */
+
+  /* Accents (semantic) */
+  --ib-accent:         var(--ib-bituin);          /* eyebrows, CTAs    */
+  --ib-accent-on:      var(--ib-narra-darkest);   /* fg on yellow      */
+  --ib-link:           var(--ib-bituin);
+  --ib-focus:          var(--ib-bituin);
+
+  /* Hairlines & dividers — chalked, never crisp.                       */
+  --ib-rule:           rgba(207, 216, 227, 0.16);
+  --ib-rule-strong:    rgba(207, 216, 227, 0.30);
+  --ib-rule-paper:     rgba(15,  21,  56, 0.14);
+
+  /* States */
+  --ib-hover-veil:     rgba(144, 190, 233, 0.10); /* tint of bituin    */
+  --ib-press-veil:     rgba(15,  21,  56, 0.20);
+
+  /* ---- 4. Type families --------------------------------------------- */
+  --ib-font-display:   'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  --ib-font-sans:      'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --ib-font-mono:      'DM Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* ---- 5. Type scale (modular, 1.250 minor third) ------------------- */
+  --ib-text-2xs:       11px;
+  --ib-text-xs:        12px;
+  --ib-text-sm:        14px;
+  --ib-text-base:      16px;
+  --ib-text-lg:        19px;
+  --ib-text-xl:        24px;
+  --ib-text-2xl:       30px;   /* sans display max */
+  --ib-text-3xl:       38px;
+  --ib-text-4xl:       52px;
+  --ib-text-5xl:       72px;
+  --ib-text-6xl:       104px;  /* hero serif        */
+  --ib-text-7xl:       148px;  /* poster headline   */
+
+  /* Line heights */
+  --ib-leading-tight:  1.05;   /* big serif         */
+  --ib-leading-snug:   1.18;
+  --ib-leading-body:   1.45;
+  --ib-leading-loose:  1.65;
+
+  /* Letter-spacing tokens (the brand leans HARD into wide tracking
+     on uppercase eyebrows, the way the poster sets "IN BITUIN") */
+  --ib-tracking-eyebrow:  0.32em;
+  --ib-tracking-caps:     0.18em;
+  --ib-tracking-tight:   -0.015em;
+  --ib-tracking-display: -0.01em;
+
+  /* ---- 6. Spacing scale (8-pt grid + 4-pt micro) -------------------- */
+  --ib-space-0:   0;
+  --ib-space-1:   4px;
+  --ib-space-2:   8px;
+  --ib-space-3:   12px;
+  --ib-space-4:   16px;
+  --ib-space-5:   24px;
+  --ib-space-6:   32px;
+  --ib-space-7:   48px;
+  --ib-space-8:   64px;
+  --ib-space-9:   96px;
+  --ib-space-10:  128px;
+  --ib-space-11:  192px;
+
+  /* ---- 7. Radii (mostly square; cream-paper softness on a few) ------ */
+  --ib-radius-0:   0;
+  --ib-radius-1:   2px;
+  --ib-radius-2:   4px;
+  --ib-radius-3:   8px;
+  --ib-radius-4:   14px;     /* event cards, image frames               */
+  --ib-radius-pill: 999px;
+
+  /* ---- 8. Shadows + glow -------------------------------------------- */
+  /* The brand uses ATMOSPHERIC blur more than crisp shadows — like a
+     grainy gradient bloom behind the headline on the poster.          */
+  --ib-shadow-lift:    0 6px 24px -8px rgba(0,0,0,0.55);
+  --ib-shadow-deep:    0 20px 60px -20px rgba(0,0,0,0.65);
+  --ib-glow-star:      0 0 60px rgba(144,190,233,0.32),
+                       0 0 120px rgba(144,190,233,0.14);
+  --ib-glow-soft:      0 0 80px rgba(207,216,227,0.18);
+
+  /* ---- 9. Motion ---------------------------------------------------- */
+  --ib-ease:           cubic-bezier(0.22, 0.61, 0.36, 1);   /* settle  */
+  --ib-ease-out:       cubic-bezier(0.16, 1, 0.3, 1);       /* unfurl  */
+  --ib-dur-1:          120ms;
+  --ib-dur-2:          220ms;
+  --ib-dur-3:          420ms;
+  --ib-dur-4:          720ms;
+
+  /* ---- 10. Layout --------------------------------------------------- */
+  --ib-container:      1240px;
+  --ib-container-wide: 1440px;
+  --ib-gutter:         clamp(20px, 5vw, 64px);
+}
+
+/* =====================================================================
+   Semantic type styles — use these on real elements, not the raw vars.
+   ===================================================================== */
+
+/* Hero — the poster voice. ONE per screen.                              */
+.ib-display-1 {
+  font-family: var(--ib-font-display);
+  font-weight: 500;
+  font-size: clamp(56px, 9vw, var(--ib-text-7xl));
+  line-height: var(--ib-leading-tight);
+  letter-spacing: var(--ib-tracking-display);
+  color: var(--ib-fg-display);
+  text-wrap: balance;
+}
+
+/* Section headline                                                       */
+.ib-display-2 {
+  font-family: var(--ib-font-display);
+  font-weight: 500;
+  font-size: clamp(40px, 6vw, var(--ib-text-6xl));
+  line-height: 1.08;
+  letter-spacing: var(--ib-tracking-display);
+  color: var(--ib-fg-display);
+  text-wrap: balance;
+}
+
+/* Editorial subhead                                                      */
+.ib-display-3 {
+  font-family: var(--ib-font-display);
+  font-weight: 500;
+  font-size: clamp(28px, 4vw, var(--ib-text-4xl));
+  line-height: 1.12;
+  letter-spacing: var(--ib-tracking-display);
+  color: var(--ib-fg-display);
+}
+
+/* Editorial body — used in long-form essays / about pages.              */
+.ib-prose {
+  font-family: var(--ib-font-display);
+  font-weight: 400;
+  font-size: var(--ib-text-xl);
+  line-height: var(--ib-leading-loose);
+  color: var(--ib-fg);
+  text-wrap: pretty;
+}
+
+/* Eyebrow — the yellow all-caps label, e.g. "JOIN US:", "WHEN:"         */
+.ib-eyebrow {
+  font-family: var(--ib-font-sans);
+  font-weight: 700;
+  font-size: var(--ib-text-sm);
+  letter-spacing: var(--ib-tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--ib-accent);
+  line-height: 1.2;
+}
+
+/* Eyebrow — cream variant (for "IN BITUIN" wordmark line above title)  */
+.ib-eyebrow-soft {
+  font-family: var(--ib-font-sans);
+  font-weight: 500;
+  font-size: var(--ib-text-sm);
+  letter-spacing: var(--ib-tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--ib-fg-muted);
+  line-height: 1.2;
+}
+
+/* Body — the working text style.                                        */
+.ib-body {
+  font-family: var(--ib-font-sans);
+  font-weight: 400;
+  font-size: var(--ib-text-base);
+  line-height: var(--ib-leading-body);
+  color: var(--ib-fg);
+}
+
+.ib-body-lg {
+  font-family: var(--ib-font-sans);
+  font-weight: 400;
+  font-size: var(--ib-text-lg);
+  line-height: var(--ib-leading-body);
+  color: var(--ib-fg);
+}
+
+.ib-meta {
+  font-family: var(--ib-font-sans);
+  font-weight: 500;
+  font-size: var(--ib-text-sm);
+  line-height: 1.4;
+  color: var(--ib-fg-muted);
+}
+
+.ib-caption {
+  font-family: var(--ib-font-sans);
+  font-weight: 400;
+  font-size: var(--ib-text-xs);
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  color: var(--ib-fg-dim);
+}
+
+/* Button label                                                          */
+.ib-label {
+  font-family: var(--ib-font-sans);
+  font-weight: 600;
+  font-size: var(--ib-text-sm);
+  letter-spacing: var(--ib-tracking-caps);
+  text-transform: uppercase;
+}
+
+/* Mono — receipts, programme listings, code                             */
+.ib-mono {
+  font-family: var(--ib-font-mono);
+  font-weight: 400;
+  font-size: var(--ib-text-sm);
+  letter-spacing: 0.01em;
+}
+
+/* =====================================================================
+   Surface helpers — for quick layout work
+   ===================================================================== */
+.ib-surface-canopy   { background: var(--ib-canopy);     color: var(--ib-fg); }
+.ib-surface-deep     { background: var(--ib-narra-deep); color: var(--ib-fg); }
+.ib-surface-paper    { background: var(--ib-abaca-paper); color: var(--ib-fg-on-paper); }
+.ib-surface-bituin   { background: var(--ib-bituin);     color: var(--ib-accent-on); }

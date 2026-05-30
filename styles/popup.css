@@ -1,11 +1,11 @@
 /* ===== Leaflet overrides ===== */
 .leaflet-popup-content-wrapper {
-  background: var(--ib-narra-deep);
-  color: var(--ib-fg);
-  border-radius: 0;
+  background: var(--ib-linen);
+  color: var(--ib-espresso);
+  border-radius: var(--ib-radius-3);
   padding: 0;
   border: 1px solid var(--ib-rule-strong);
-  box-shadow: 0 24px 60px -20px rgba(0,0,0,0.7);
+  box-shadow: var(--ib-shadow-deep);
   overflow: hidden;
   max-width: calc(100vw - 24px);
 }
@@ -25,14 +25,14 @@
   position: absolute !important;
   top: 10px !important;
   right: 10px !important;
-  color: var(--ib-fg) !important;
-  background: rgba(15,21,56,0.7) !important;
+  color: var(--ib-espresso) !important;
+  background: rgba(239, 235, 206, 0.86) !important;
   width: 24px !important;
   height: 24px !important;
   line-height: 20px !important;
   text-align: center !important;
   font-size: 16px !important;
-  border-radius: 0 !important;
+  border-radius: var(--ib-radius-pill) !important;
   z-index: 10;
   border: 1px solid var(--ib-rule) !important;
 }
@@ -47,53 +47,34 @@
   position: relative;
 }
 
-.pop__cover {
-  height: 96px;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  border-bottom: 1px solid var(--ib-rule);
-}
-
-.pop__cover::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(15,21,56,0) 30%, rgba(15,21,56,0.8) 100%);
-}
-
 .pop__type {
-  position: absolute;
-  top: 10px;
-  left: 10px;
   display: inline-flex;
   align-items: center;
+  align-self: center;
   gap: 6px;
   padding: 4px 8px;
-  background: rgba(15,21,56,0.78);
-  border: 1px solid var(--ib-rule);
+  border-radius: var(--ib-radius-pill);
+  background: var(--ib-espresso);
+  border: 1px solid rgba(86, 44, 44, 0.22);
   font-size: 9px;
-  font-weight: 700;
+  font-family: var(--ib-font-mono);
+  font-weight: 400;
   letter-spacing: var(--ib-tracking-caps);
   text-transform: uppercase;
-  color: var(--ib-bituin);
-  z-index: 2;
-  backdrop-filter: blur(6px);
-}
-
-.pop__num {
-  position: absolute;
-  bottom: 10px;
-  left: 12px;
-  font-family: var(--ib-font-mono);
-  font-size: 10px;
-  color: var(--ib-fg-muted);
-  letter-spacing: 0.08em;
-  z-index: 2;
+  color: var(--ib-linen);
+  flex: 0 0 auto;
 }
 
 .pop__body {
   padding: 14px 16px 16px;
+}
+
+.pop__title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: 22px;
+  flex-wrap: nowrap;
 }
 
 .pop__name {
@@ -102,14 +83,16 @@
   font-size: 21px;
   line-height: 1.05;
   letter-spacing: -0.01em;
-  color: var(--ib-fg-display);
+  color: var(--ib-espresso);
   margin: 0;
+  min-width: 0;
+  flex: 0 1 auto;
 }
 
 .pop__loc {
   margin-top: 5px;
   font-size: 11px;
-  color: var(--ib-fg-muted);
+  color: var(--ib-espresso-soft);
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -125,11 +108,13 @@
   background: var(--ib-bituin);
   color: var(--ib-accent-on);
   position: relative;
+  border-radius: var(--ib-radius-3);
 }
 
 .pop__perk-eyebrow {
   font-size: 8px;
-  font-weight: 700;
+  font-family: var(--ib-font-mono);
+  font-weight: 400;
   letter-spacing: var(--ib-tracking-eyebrow);
   text-transform: uppercase;
   color: var(--ib-accent-on);
@@ -159,7 +144,7 @@
   margin-top: 10px;
   font-size: 12px;
   line-height: 1.5;
-  color: var(--ib-fg);
+  color: var(--ib-espresso);
   font-family: var(--ib-font-sans);
 }
 
@@ -176,12 +161,18 @@
   text-align: center;
   padding: 8px 0;
   border: 1px solid var(--ib-rule);
+  background: rgba(86, 44, 44, 0.04);
   font-size: 10px;
-  font-weight: 700;
+  border-radius: var(--ib-radius-pill);
+  font-family: var(--ib-font-mono);
+  font-weight: 400;
   letter-spacing: var(--ib-tracking-caps);
   text-transform: uppercase;
-  color: var(--ib-fg-display);
-  transition: all var(--ib-dur-2) var(--ib-ease);
+  color: var(--ib-espresso);
+  transition:
+    background var(--ib-dur-2) var(--ib-ease),
+    border-color var(--ib-dur-2) var(--ib-ease),
+    color var(--ib-dur-2) var(--ib-ease);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -189,8 +180,9 @@
 }
 
 .pop__action:hover {
-  border-color: var(--ib-bituin);
-  color: var(--ib-bituin);
+  background: rgba(86, 44, 44, 0.08);
+  border-color: var(--ib-rule-strong);
+  color: var(--ib-espresso);
 }
 
 /* ===== Mobile popup ===== */
@@ -201,10 +193,6 @@
 
   .leaflet-popup-content-wrapper {
     max-width: calc(100vw - 24px);
-  }
-
-  .pop__cover {
-    height: 72px;
   }
 
   .pop__body {
