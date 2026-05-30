@@ -6,11 +6,11 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background: var(--ib-canopy);
+  background: #5E7948;
   color: var(--ib-fg);
   font-family: var(--ib-font-sans);
   -webkit-font-smoothing: antialiased;
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 a {
@@ -25,4 +25,9 @@ button {
   border: 0;
   padding: 0;
   cursor: pointer;
+}
+
+button:active,
+a:active {
+  transform: translateY(1px);
 }

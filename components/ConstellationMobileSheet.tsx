@@ -1,54 +1,25 @@
-import { useRef } from "react";
+import { useRef, useState, type PointerEvent } from "react";
 import type { Partner } from "@/data/partners";
 
-interface TypeCount {
-  key: string;
-  count: number;
-}
+type MobileSheetLevel = "peek" | "collapsed" | "expanded";
 
-interface MobileTopChromeProps {
-  types: TypeCount[];
-  filter: string;
-  onFilter: (type: string) => void;
-}
+const RSVP_URL = "https://partiful.com/e/q0vog3c2ldApTwNfSQbL?c=8NqPm6FG";
 
-export function ConstellationMobileTopChrome({
-  types,
-  filter,
-  onFilter,
-}: MobileTopChromeProps) {
+export function ConstellationMobileTopChrome() {
   return (
-    <>
-      <div className="mob-top">
-        <div className="mob-top__row">
-          <img className="mob-top__mark" src="/assets/philippine-sun.png" alt="" />
-          <span className="mob-top__brand">In Bituin</span>
-          <a className="mob-top__rsvp" href="#">
-            RSVP
-          </a>
-        </div>
-        <div className="mob-top__title">
-          <h1>Constellation</h1>
-          <span className="mob-top__spark" aria-hidden="true">
-            ✦
-          </span>
-          <em>Map</em>
-        </div>
+    <div className="mob-top">
+      <div className="mob-top__row">
+        <span className="mob-top__mark" aria-hidden="true" />
+        <span className="mob-top__brand">In Bituin</span>
+        <a className="mob-top__rsvp" href={RSVP_URL} target="_blank" rel="noopener">
+          RSVP
+        </a>
       </div>
-
-      <div className="mob-chips" aria-label="Filter businesses">
-        {types.map((type) => (
-          <button
-            key={type.key}
-            className={"mob-chip" + (filter === type.key ? " mob-chip--on" : "")}
-            onClick={() => onFilter(type.key)}
-            type="button"
-          >
-            {type.key} <span className="mob-chip__num">{type.count}</span>
-          </button>
-        ))}
+      <div className="mob-top__title">
+        <h1>The Living</h1>
+        <em>Canvas</em>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -56,10 +27,12 @@ interface MobileSheetProps {
   partners: Partner[];
   filtered: Partner[];
   active: Partner | null;
-  sheetLevel: "peek" | "collapsed" | "expanded";
+  sheetLevel: MobileSheetLevel;
+  sheetHeight: number;
+  snapHeights: Record<MobileSheetLevel, number>;
   onToggleExpanded: () => void;
-  onExpandUp: () => void;
-  onCollapseDown: () => void;
+  onDragHeight: (height: number | null) => void;
+  onSnapLevel: (level: MobileSheetLevel) => void;
   onSelect: (id: string) => void;
   onClose: () => void;
 }
@@ -69,46 +42,98 @@ export function ConstellationMobileSheet({
   filtered,
   active,
   sheetLevel,
+  sheetHeight,
+  snapHeights,
   onToggleExpanded,
-  onExpandUp,
-  onCollapseDown,
+  onDragHeight,
+  onSnapLevel,
   onSelect,
   onClose,
 }: MobileSheetProps) {
-  const touchStartY = useRef<number | null>(null);
-  const activeIndex = active ? partners.findIndex((partner) => partner.id === active.id) : -1;
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStart = useRef<{ y: number; height: number } | null>(null);
+  const draggedRef = useRef(false);
   const handleLabel =
     sheetLevel === "expanded" ? "Collapse business list" : "Expand business list";
 
-  const onTouchEnd = (y: number) => {
-    if (touchStartY.current === null || active) return;
-    const delta = y - touchStartY.current;
-    touchStartY.current = null;
+  const snapToNearestLevel = (height: number) => {
+    const levels: MobileSheetLevel[] = ["peek", "collapsed", "expanded"];
+    return levels.reduce((best, level) => {
+      const bestDistance = Math.abs(snapHeights[best] - height);
+      const distance = Math.abs(snapHeights[level] - height);
+      return distance < bestDistance ? level : best;
+    }, "collapsed" as MobileSheetLevel);
+  };
 
-    if (delta < -28) {
-      onExpandUp();
-    } else if (delta > 28) {
-      onCollapseDown();
+  const onPointerMove = (event: PointerEvent<HTMLButtonElement>) => {
+    if (!dragStart.current || active) return;
+    const delta = dragStart.current.y - event.clientY;
+    if (Math.abs(delta) <= 3) return;
+    draggedRef.current = true;
+    const minHeight = snapHeights.peek;
+    const maxHeight = snapHeights.expanded;
+    const nextHeight = Math.max(
+      minHeight,
+      Math.min(dragStart.current.height + delta, maxHeight),
+    );
+    onDragHeight(nextHeight);
+  };
+
+  const finishDrag = (event: PointerEvent<HTMLButtonElement>) => {
+    if (!dragStart.current || active) return;
+    event.currentTarget.releasePointerCapture(event.pointerId);
+    setIsDragging(false);
+
+    if (!draggedRef.current) {
+      dragStart.current = null;
+      onToggleExpanded();
+      return;
     }
+
+    const delta = dragStart.current.y - event.clientY;
+    const projectedHeight = Math.max(
+      snapHeights.peek,
+      Math.min(dragStart.current.height + delta, snapHeights.expanded),
+    );
+    dragStart.current = null;
+    onSnapLevel(snapToNearestLevel(projectedHeight));
   };
 
   return (
-    <div className="mob-sheet" aria-label={active ? `${active.name} details` : "Business list"}>
+    <div
+      className={"mob-sheet" + (isDragging ? " is-dragging" : "")}
+      aria-label={active ? `${active.name} details` : "Business list"}
+      style={{ height: sheetHeight }}
+    >
       <button
         className="mob-sheet__handle"
         aria-label={handleLabel}
         disabled={Boolean(active)}
-        onClick={onToggleExpanded}
-        onTouchStart={(event) => {
-          touchStartY.current = event.changedTouches[0]?.clientY ?? null;
+        onPointerDown={(event) => {
+          if (active) return;
+          event.currentTarget.setPointerCapture(event.pointerId);
+          dragStart.current = { y: event.clientY, height: sheetHeight };
+          draggedRef.current = false;
+          setIsDragging(true);
         }}
-        onTouchEnd={(event) => {
-          onTouchEnd(event.changedTouches[0]?.clientY ?? 0);
+        onPointerMove={onPointerMove}
+        onPointerUp={finishDrag}
+        onPointerCancel={(event) => {
+          if (!dragStart.current) return;
+          event.currentTarget.releasePointerCapture(event.pointerId);
+          dragStart.current = null;
+          setIsDragging(false);
+          onDragHeight(null);
+        }}
+        onKeyDown={(event) => {
+          if (event.key !== "Enter" && event.key !== " ") return;
+          event.preventDefault();
+          onToggleExpanded();
         }}
         type="button"
       />
       {active ? (
-        <MobileDetail partner={active} index={activeIndex} onClose={onClose} />
+        <MobileDetail partner={active} onClose={onClose} />
       ) : (
         <MobileList
           partners={partners}
@@ -129,37 +154,28 @@ interface MobileListProps {
 function MobileList({ partners, filtered, onSelect }: MobileListProps) {
   return (
     <>
-      <div className="mob-list__head">
-        <div className="mob-list__count">
-          <em>{String(filtered.length).padStart(2, "0")}</em> stars
-        </div>
-        <div className="mob-list__hint">Tap to fly</div>
-      </div>
       <div className="mob-list__scroll">
-        {filtered.map((partner) => {
-          const index = partners.findIndex((item) => item.id === partner.id);
-          return (
-            <button
-              key={partner.id}
-              className="mob-card"
-              onClick={() => onSelect(partner.id)}
-              type="button"
-            >
-              <span className="mob-card__num">{String(index + 1).padStart(2, "0")}</span>
-              <span className="mob-card__body">
-                <span className="mob-card__name">{partner.name}</span>
-                <span className="mob-card__meta">
-                  <span className="mob-card__type">{partner.type}</span>
-                  <span className="mob-card__sep">·</span>
-                  <span className="mob-card__loc">{partner.neighborhood}</span>
-                </span>
+        {filtered.map((partner) => (
+          <button
+            key={partner.id}
+            className="mob-card"
+            onClick={() => onSelect(partner.id)}
+            type="button"
+          >
+            <span className="mob-card__body">
+              <span className="mob-card__name">{partner.name}</span>
+              <span className="mob-card__meta">
+                <span className="mob-card__type">{partner.type}</span>
+                <span className="mob-card__sep">·</span>
+                <span className="mob-card__loc">{partner.neighborhood}</span>
               </span>
-              <span className="mob-card__chev" aria-hidden="true">
-                ›
-              </span>
-            </button>
-          );
-        })}
+              <span className="mob-card__perk">{partner.perk}</span>
+            </span>
+            <span className="mob-card__chev" aria-hidden="true">
+              ›
+            </span>
+          </button>
+        ))}
       </div>
     </>
   );
@@ -167,19 +183,18 @@ function MobileList({ partners, filtered, onSelect }: MobileListProps) {
 
 interface MobileDetailProps {
   partner: Partner;
-  index: number;
   onClose: () => void;
 }
 
-function MobileDetail({ partner, index, onClose }: MobileDetailProps) {
+function MobileDetail({ partner, onClose }: MobileDetailProps) {
   const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
     partner.address,
   )}`;
+  const period = [partner.start, partner.end].filter(Boolean).join(" / ");
 
   return (
     <div className="mob-detail">
-      <div className="mob-detail__cover" style={{ background: partner.cover }}>
-        <span className="mob-detail__type">{partner.type}</span>
+      <div className="mob-detail__body">
         <button
           className="mob-detail__close"
           onClick={onClose}
@@ -188,12 +203,10 @@ function MobileDetail({ partner, index, onClose }: MobileDetailProps) {
         >
           ✕
         </button>
-        <span className="mob-detail__num">
-          ★ Bituin No. {String(index + 1).padStart(2, "0")}
-        </span>
-      </div>
-      <div className="mob-detail__body">
-        <h2 className="mob-detail__name">{partner.name}</h2>
+        <div className="mob-detail__title-row">
+          <h2 className="mob-detail__name">{partner.name}</h2>
+          <span className="mob-detail__type">{partner.type}</span>
+        </div>
         <p className="mob-detail__loc">
           <span className="mob-detail__loc-mark" aria-hidden="true">
             ◆
@@ -201,11 +214,9 @@ function MobileDetail({ partner, index, onClose }: MobileDetailProps) {
           <span>{partner.address}</span>
         </p>
         <div className="mob-detail__perk">
-          <div className="mob-detail__perk-eyebrow">Independence Day exclusive</div>
+          <div className="mob-detail__perk-eyebrow">Living Canvas exclusive</div>
           <div className="mob-detail__perk-head">{partner.perkLong}</div>
-          <div className="mob-detail__perk-period">
-            {partner.start} → {partner.end}
-          </div>
+          {period && <div className="mob-detail__perk-period">{period}</div>}
         </div>
         <p className="mob-detail__desc">{partner.desc}</p>
         <a className="mob-detail__cta" href={mapsUrl} target="_blank" rel="noopener">

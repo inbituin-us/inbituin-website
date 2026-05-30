@@ -1,6 +1,57 @@
+.partner-marker {
+  width: 60px;
+  height: 90px;
+  display: grid;
+  justify-items: center;
+  align-content: end;
+  gap: 9px;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform var(--ib-dur-2) var(--ib-ease);
+}
+
+.partner-marker:hover {
+  transform: translateY(-2px);
+}
+
+.partner-marker__logo {
+  width: 26px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  filter: drop-shadow(0 2px 3px rgba(86, 44, 44, 0.36));
+}
+
+.partner-marker__logo img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.partner-marker .star-pin:hover {
+  transform: none;
+}
+
+.partner-marker--active {
+  width: 76px;
+  height: 112px;
+  gap: 12px;
+}
+
+.partner-marker--active .partner-marker__logo {
+  width: 34px;
+  height: 22px;
+}
+
 .star-pin {
-  width: 36px !important;
-  height: 36px !important;
+  width: 52px !important;
+  height: 52px !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,26 +67,20 @@
 }
 
 .star-pin .star-shape {
-  fill: var(--ib-abaca);
-  filter: drop-shadow(0 0 6px rgba(200,220,240,0.45));
-  transition: fill var(--ib-dur-2) var(--ib-ease), filter var(--ib-dur-3) var(--ib-ease);
+  fill: var(--ib-khaki-soft);
+  stroke: rgba(86, 44, 44, 0.46);
+  stroke-width: 3px;
+  filter: drop-shadow(0 2px 3px rgba(86, 44, 44, 0.24));
+  transition:
+    fill var(--ib-dur-2) var(--ib-ease),
+    stroke var(--ib-dur-2) var(--ib-ease),
+    filter var(--ib-dur-3) var(--ib-ease);
 }
 
 .star-pin .star-halo {
-  fill: rgba(144,190,233,0);
+  fill: rgba(221, 214, 18, 0);
   transform-origin: center;
   transition: fill var(--ib-dur-3) var(--ib-ease);
-}
-
-.star-pin .star-num {
-  font-family: var(--ib-font-mono);
-  font-size: 9px;
-  fill: #0f1538;
-  font-weight: 600;
-  text-anchor: middle;
-  dominant-baseline: middle;
-  opacity: 0;
-  transition: opacity var(--ib-dur-2) var(--ib-ease);
 }
 
 .star-pin:hover {
@@ -43,30 +88,51 @@
 }
 
 .star-pin:hover .star-shape {
-  fill: var(--ib-fg-display);
+  fill: var(--ib-calamansi);
+  stroke: rgba(86, 44, 44, 0.54);
 }
 
 .star-pin--active {
-  width: 56px !important;
-  height: 56px !important;
+  width: 72px !important;
+  height: 72px !important;
   z-index: 1000 !important;
 }
 
 .star-pin--active .star-halo {
-  fill: rgba(144,190,233,0.2);
+  fill: rgba(221, 214, 18, 0.22);
   animation: twinkle 2.6s ease-in-out infinite;
 }
 
 .star-pin--active .star-shape {
   fill: var(--ib-bituin);
-  filter: drop-shadow(0 0 16px rgba(144,190,233,0.75));
-}
-
-.star-pin--active .star-num {
-  opacity: 1;
+  stroke: rgba(86, 44, 44, 0.62);
+  filter: drop-shadow(0 6px 14px rgba(86, 44, 44, 0.38));
 }
 
 @keyframes twinkle {
-  0%, 100% { fill: rgba(144,190,233,0.12); }
-  50%       { fill: rgba(144,190,233,0.3); }
+  0%, 100% { fill: rgba(221, 214, 18, 0.12); }
+  50%       { fill: rgba(221, 214, 18, 0.3); }
+}
+
+@media (max-width: 640px) {
+  .partner-marker {
+    width: 54px;
+    height: 82px;
+    gap: 8px;
+  }
+
+  .partner-marker__logo {
+    width: 24px;
+    height: 14px;
+  }
+
+  .partner-marker--active {
+    width: 68px;
+    height: 100px;
+  }
+
+  .partner-marker--active .partner-marker__logo {
+    width: 30px;
+    height: 18px;
+  }
 }
