@@ -31,7 +31,7 @@
   font-size: 22px;
   color: var(--ib-fg-display);
   line-height: 1.15;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
   margin: 0 0 8px;
 }
 

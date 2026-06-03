@@ -10,6 +10,8 @@
 # address     — full street address
 # lat / lng   — map coordinates (Google Maps → right-click → copy lat/lng)
 # logo        — public image path, e.g. "/assets/partner-logos/kabisera.png"
+# logoPlacement — top | bottom (where the logo sits relative to the star)
+# logoGapDesktop / logoGapMobile — px gap between logo and star; negative values overlap closer
 # mapsUrl     — optional direct map/directions URL
 # perk        — short perk line on the list card
 # perkLong    — full perk text in the detail view
@@ -18,75 +20,72 @@
 # accent      — hex color for badges and highlights
 
 - id: lackawanna-cafe
-  name: Lackawanna Cafe
+  name: Lackawanna Coffee
   type: Café
   neighborhood: Grove Street · Jersey City
   address: 295 Grove St, Jersey City, NJ 07302
   lat: 40.718536
   lng: -74.043793
   logo: /assets/partner-logos/lackawanna-cafe-mark.png
-  perk: BOGO drink with special Bituin drink
-  perkLong: Buy one drink, get one with the special Bituin drink
+  logoPlacement: bottom
+  logoGapDesktop: 0
+  logoGapMobile: 0
+  perk: Buy one In Bituin drink, get one free
+  perkLong: Buy one In Bituin drink, get one free
   start: Jun 13
   desc: A neighborhood coffee stop near Grove Street with a calm back-patio feel, steady espresso drinks, and room to linger between gallery moments.
   accent: "#ddd612"
 
-- id: tradisyon
-  name: Tradisyon
-  type: Restaurant
-  neighborhood: Midtown · Manhattan
-  address: 135 W 50th St, New York, NY 10020
-  lat: 40.7610023
-  lng: -73.9818277
-  logo: /assets/partner-logos/tradisyon-mark.png
-  perk: Free drink with every purchase
-  perkLong: Free drink with every purchase
-  start: Jun 13, 2026
-  desc: Filipino comfort food in Midtown, built around familiar dishes, warm bowls, and the flavors many of us grew up reaching for.
-  accent: "#d6ce93"
-
 - id: binondo-by-kabisera
-  name: Binondo by Kabisera
+  name: BINONDO by Kabisera
   type: Restaurant
   neighborhood: Chinatown · Manhattan
   address: 50 E Broadway, New York, NY 10002
   lat: 40.7137974
   lng: -73.9956861
   logo: /assets/partner-logos/binondo-by-kabisera-mark.png
-  perk: 15% discount w/ $25+ purchase
-  perkLong: 15% discount with a purchase of $25 or more
+  logoPlacement: bottom
+  logoGapDesktop: 0
+  logoGapMobile: 0
+  perk: 15% off w/ $25+ purchase
+  perkLong: 15% off with a purchase of $25 or more
   start: Jun 13
   desc: Filipino-Chinese cooking in Chinatown, honoring Binondo through shared plates, nostalgic flavors, and a lively dining room.
   accent: "#e16036"
+
+- id: tradisyon
+  name: Tradisyon
+  type: Restaurant
+  neighborhood: Midtown · Manhattan
+  address: 135 W 50th Street, New York, NY 10020
+  lat: 40.7610023
+  lng: -73.9818277
+  logo: /assets/partner-logos/tradisyon-mark.png
+  logoPlacement: top
+  logoGapDesktop: -20
+  logoGapMobile: -8
+  perk: Free drink with purchase
+  perkLong: Free drink with purchase
+  start: Jun 13
+  desc: Filipino comfort food in Midtown, built around familiar dishes, warm bowls, and the flavors many of us grew up reaching for.
+  accent: "#d6ce93"
 
 - id: millies-coffee-co
   name: Millie's Coffee Co
   type: Café
   neighborhood: Astoria · Queens
-  address: 25-83 31st St, 1st Floor, Astoria, NY 11102
+  address: 25-83 31st St 1st Floor, Astoria, NY 11102
   lat: 40.768381
   lng: -73.9194716
   logo: /assets/partner-logos/millies-coffee-co-mark.png
+  logoPlacement: top
+  logoGapDesktop: -12
+  logoGapMobile: -8
   perk: 15% discount
   perkLong: 15% discount on your purchase
   start: Jun 13
   desc: A Filipino-inspired Astoria coffee shop with ube lattes, thoughtful drinks, and a bright, easygoing neighborhood rhythm.
   accent: "#ddd612"
-
-- id: salvaje
-  name: Panaderya Salvaje
-  type: Bakery
-  neighborhood: Downtown · Jersey City
-  address: 9 Erie St, Jersey City, NJ 07302
-  lat: 40.7213171
-  lng: -74.0445177
-  logo: /assets/partner-logos/salvaje-mark.png
-  mapsUrl: https://maps.app.goo.gl/su7HRk3vWtL1gQTN6
-  perk: 15% discount
-  perkLong: 15% discount on your purchase
-  start: Jun 13
-  desc: A Filipino bakery in Downtown Jersey City known for expressive pastries, savory bakes, and small-batch weekend drops that sell quickly.
-  accent: "#5e7948"
 
 - id: kalye
   name: Kalye
@@ -96,8 +95,47 @@
   lat: 40.7198165
   lng: -73.9879359
   logo: /assets/partner-logos/kalye-mark.png
+  logoPlacement: top
+  logoGapDesktop: -16
+  logoGapMobile: -8
   perk: 15% discount
   perkLong: 15% discount on your purchase
   start: Jun 13
   desc: Filipino food and hospitality on the Lower East Side, named for the street and built for shared meals, barkada dinners, and celebration.
   accent: "#f5c842"
+
+- id: salvaje
+  name: Panaderya Salvaje
+  type: Bakery
+  neighborhood: Downtown · Jersey City
+  address: 9 Erie St, Jersey City, NJ 07302
+  lat: 40.7213171
+  lng: -74.0445177
+  logo: /assets/partner-logos/salvaje-mark.png
+  logoPlacement: top
+  logoGapDesktop: -16
+  logoGapMobile: -8
+  mapsUrl: https://maps.app.goo.gl/su7HRk3vWtL1gQTN6
+  perk: 15% discount
+  perkLong: 15% discount on your purchase
+  start: Jun 13
+  desc: A Filipino bakery in Downtown Jersey City known for expressive pastries, savory bakes, and small-batch weekend drops that sell quickly.
+  accent: "#5e7948"
+
+- id: tradicionale
+  name: Tradicionale
+  type: Restaurant
+  neighborhood: Chelsea · Manhattan
+  address: 156 9th Ave, New York, NY 10011
+  lat: 40.7442505
+  lng: -74.0026223
+  logo: /assets/partner-logos/tradicionale-mark.svg
+  logoPlacement: top
+  logoGapDesktop: -30
+  logoGapMobile: -16
+  mapsUrl: https://maps.app.goo.gl/4Ld6xDkzFiYMTkfe7
+  perk: Complimentary side dish & sparkling wine
+  perkLong: Complimentary side dish (1 for every group of 3 or less) & 1 round of sparkling wine
+  start: Jun 13
+  desc: A Chelsea restaurant sharing a warm table for groups before the gallery, after the party, and every stop in between.
+  accent: "#d6ce93"

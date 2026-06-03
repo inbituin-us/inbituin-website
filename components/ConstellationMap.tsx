@@ -24,13 +24,16 @@ const TILE_PRESETS: Record<
       "sepia(0.35) hue-rotate(20deg) saturate(0.55) brightness(0.46) contrast(1.08)",
   },
   paper: {
-    url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+    url: "https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png",
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> · <a href="https://carto.com/attributions">CARTO</a>',
     filter:
-      "sepia(0.18) hue-rotate(18deg) saturate(0.72) brightness(1.02) contrast(0.96)",
+      "sepia(0.16) hue-rotate(36deg) saturate(0.62) brightness(1.08) contrast(0.94)",
   },
 };
+
+const DESKTOP_MAP_CENTER: [number, number] = [40.727288, -74.00095];
+const MOBILE_MAP_CENTER: [number, number] = [40.688496, -73.975632];
 
 function escapeAttr(value: string): string {
   return value
@@ -49,17 +52,31 @@ interface PartnerMarkerLayout {
   gap: number;
 }
 
+function getLogoPlacement(partner: Partner | undefined): "top" | "bottom" {
+  if (partner?.logoPlacement) return partner.logoPlacement;
+  return "top";
+}
+
+function getLogoGap(partner: Partner | undefined, fallbackGap: number, mobileMode: boolean): number {
+  if (!partner) return fallbackGap;
+  const configuredGap = mobileMode
+    ? partner.logoGapMobile
+    : partner.logoGapDesktop;
+  return typeof configuredGap === "number" ? configuredGap : fallbackGap;
+}
+
 function withPartnerLogo(
   pinHTML: string,
-  logo: string | undefined,
-  name: string,
+  partner: Partner | undefined,
   active: boolean,
+  mobileMode: boolean,
   layout?: PartnerMarkerLayout,
 ): string {
+  const logo = partner?.logo;
   if (!logo) return pinHTML;
 
-  const lowerName = name.toLowerCase();
-  const logoBelow = lowerName.includes("lackawanna");
+  const name = partner.name;
+  const logoBelow = getLogoPlacement(partner) === "bottom";
   const cls =
     "partner-marker" +
     (active ? " partner-marker--active" : "") +
@@ -70,8 +87,9 @@ function withPartnerLogo(
   const logoWidth = layout?.logoWidth ?? (active ? 34 : 26);
   const logoHeight = layout?.logoHeight ?? (active ? 22 : 16);
   const gap = layout?.gap ?? (active ? 12 : 9);
-  const starTop = logoBelow ? 0 : logoHeight + gap;
-  const logoTop = logoBelow ? starSize + gap : 0;
+  const adjustedGap = getLogoGap(partner, gap, mobileMode);
+  const starTop = logoBelow ? 0 : logoHeight + adjustedGap;
+  const logoTop = logoBelow ? starSize + adjustedGap : 0;
   const starLeft = (markerWidth - starSize) / 2;
   const logoLeft = (markerWidth - logoWidth) / 2;
 
@@ -89,8 +107,8 @@ function withPartnerLogo(
 function starIconHTML(
   num: string,
   active: boolean,
-  logo?: string,
-  name = "",
+  partner?: Partner,
+  mobileMode = false,
   layout?: PartnerMarkerLayout,
 ): string {
   const cls = "star-pin" + (active ? " star-pin--active" : "");
@@ -106,9 +124,9 @@ function starIconHTML(
           M 0 -22 L 5 -5 L 22 0 L 5 5 L 0 22 L -5 5 L -22 0 L -5 -5 Z"/>
       </svg>
     </div>`,
-    logo,
-    name,
+    partner,
     active,
+    mobileMode,
     layout,
   );
 }
@@ -116,8 +134,8 @@ function starIconHTML(
 function sunIconHTML(
   num: string,
   active: boolean,
-  logo?: string,
-  name = "",
+  partner?: Partner,
+  mobileMode = false,
   layout?: PartnerMarkerLayout,
 ): string {
   const cls = "star-pin sun-pin" + (active ? " star-pin--active" : "");
@@ -137,9 +155,9 @@ function sunIconHTML(
         <circle class="star-shape" cx="0" cy="0" r="11"/>
       </svg>
     </div>`,
-    logo,
-    name,
+    partner,
     active,
+    mobileMode,
     layout,
   );
 }
@@ -147,8 +165,8 @@ function sunIconHTML(
 function pinIconHTML(
   num: string,
   active: boolean,
-  logo?: string,
-  name = "",
+  partner?: Partner,
+  mobileMode = false,
   layout?: PartnerMarkerLayout,
 ): string {
   const cls = "star-pin pin-pin" + (active ? " star-pin--active" : "");
@@ -161,9 +179,9 @@ function pinIconHTML(
         <circle cx="0" cy="-4" r="6" fill="#16180c"/>
       </svg>
     </div>`,
-    logo,
-    name,
+    partner,
     active,
+    mobileMode,
     layout,
   );
 }
@@ -173,8 +191,8 @@ const PIN_RENDERERS: Record<
   (
     num: string,
     active: boolean,
-    logo?: string,
-    name?: string,
+    partner?: Partner,
+    mobileMode?: boolean,
     layout?: PartnerMarkerLayout,
   ) => string
 > = {
@@ -183,28 +201,61 @@ const PIN_RENDERERS: Record<
   classic: pinIconHTML,
 };
 
-function getPartnerMarkerLayout(active: boolean, mobileMode: boolean): PartnerMarkerLayout {
+function getPartnerMarkerLayout(
+  active: boolean,
+  mobileMode: boolean,
+): PartnerMarkerLayout {
   if (mobileMode) {
     return active
-      ? { width: 166, height: 124, starSize: 52, logoWidth: 129, logoHeight: 57, gap: 15 }
-      : { width: 134, height: 94, starSize: 32, logoWidth: 102, logoHeight: 45, gap: 13 };
+      ? {
+          width: 166,
+          height: 124,
+          starSize: 52,
+          logoWidth: 129,
+          logoHeight: 57,
+          gap: 0,
+        }
+      : {
+          width: 134,
+          height: 94,
+          starSize: 32,
+          logoWidth: 102,
+          logoHeight: 45,
+          gap: 0,
+        };
   }
 
   return active
-    ? { width: 218, height: 178, starSize: 72, logoWidth: 168, logoHeight: 84, gap: 18 }
-    : { width: 180, height: 142, starSize: 52, logoWidth: 138, logoHeight: 69, gap: 16 };
+    ? {
+        width: 218,
+        height: 178,
+        starSize: 72,
+        logoWidth: 168,
+        logoHeight: 84,
+        gap: 0,
+      }
+    : {
+        width: 180,
+        height: 142,
+        starSize: 52,
+        logoWidth: 138,
+        logoHeight: 69,
+        gap: 0,
+      };
 }
 
 function getPartnerMarkerAnchor(
   layout: PartnerMarkerLayout,
-  name: string,
+  partner: Partner,
+  mobileMode: boolean,
 ): [number, number] {
-  const logoBelow = name.toLowerCase().includes("lackawanna");
+  const logoBelow = getLogoPlacement(partner) === "bottom";
+  const adjustedGap = getLogoGap(partner, layout.gap, mobileMode);
   return [
     layout.width / 2,
     logoBelow
       ? layout.starSize / 2
-      : layout.logoHeight + layout.gap + layout.starSize / 2,
+      : layout.logoHeight + adjustedGap + layout.starSize / 2,
   ];
 }
 
@@ -241,7 +292,7 @@ export default function ConstellationMap({
     if (mapRef.current || !mapEl.current) return;
 
     const map = L.map(mapEl.current, {
-      center: [40.718, -73.965],
+      center: mobileMode ? MOBILE_MAP_CENTER : DESKTOP_MAP_CENTER,
       zoom: mobileMode ? 11.5 : 12,
       zoomSnap: mobileMode ? 0.5 : 1,
       zoomControl: false,
@@ -326,20 +377,16 @@ export default function ConstellationMap({
     partners.forEach((p, idx) => {
       const num = String(idx + 1).padStart(2, "0");
       const layout = p.logo ? getPartnerMarkerLayout(false, mobileMode) : null;
-      const anchor = layout ? getPartnerMarkerAnchor(layout, p.name) : null;
+      const anchor = layout ? getPartnerMarkerAnchor(layout, p, mobileMode) : null;
       const icon = L.divIcon({
-        html: render(num, false, p.logo, p.name, layout ?? undefined),
+        html: render(num, false, p, mobileMode, layout ?? undefined),
         className: "",
         iconSize: layout
           ? [layout.width, layout.height]
           : mobileMode
             ? [32, 32]
             : [36, 36],
-        iconAnchor: anchor
-          ? anchor
-          : mobileMode
-            ? [16, 16]
-            : [18, 18],
+        iconAnchor: anchor ? anchor : mobileMode ? [16, 16] : [18, 18],
       });
 
       const m = L.marker([p.lat, p.lng], { icon, riseOnHover: true }).addTo(
@@ -392,10 +439,12 @@ export default function ConstellationMap({
       if (!m) return;
       const isActive = p.id === activeId;
       const num = String(idx + 1).padStart(2, "0");
-      const layout = p.logo ? getPartnerMarkerLayout(isActive, mobileMode) : null;
-      const anchor = layout ? getPartnerMarkerAnchor(layout, p.name) : null;
+      const layout = p.logo
+        ? getPartnerMarkerLayout(isActive, mobileMode)
+        : null;
+      const anchor = layout ? getPartnerMarkerAnchor(layout, p, mobileMode) : null;
       const icon = L.divIcon({
-        html: render(num, isActive, p.logo, p.name, layout ?? undefined),
+        html: render(num, isActive, p, mobileMode, layout ?? undefined),
         className: "",
         iconSize: layout
           ? [layout.width, layout.height]

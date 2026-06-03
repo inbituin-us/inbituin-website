@@ -7,6 +7,9 @@ export interface Partner {
   lat: number;
   lng: number;
   logo?: string;
+  logoPlacement?: "top" | "bottom";
+  logoGapDesktop?: number;
+  logoGapMobile?: number;
   mapsUrl?: string;
   perk: string;
   perkLong: string;

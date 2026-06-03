@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next";
 
+const STAR_ICON = "/assets/graphics/04-LockUp-Star-White.png";
+
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "In Bituin",
@@ -12,13 +14,13 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "#5e7948",
     icons: [
       {
-        src: "/assets/graphics/philippine-sun-calamansi.png",
+        src: STAR_ICON,
         sizes: "any",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/assets/graphics/philippine-sun-calamansi.png",
+        src: STAR_ICON,
         sizes: "any",
         type: "image/png",
         purpose: "maskable",

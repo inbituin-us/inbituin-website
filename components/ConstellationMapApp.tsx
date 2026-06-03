@@ -186,24 +186,22 @@ export default function ConstellationMapApp({
       <Nav />
 
       <header className="header">
-        <div className="header__title-row">
-          <h1 className="header__title">
-            <span>The Living</span>
-            <em>Canvas</em>
-          </h1>
-          <span
-            className="header__lockup"
-            role="img"
-            aria-label="In Bituin star lockup"
-          />
+        <div className="header__brand-lockup" aria-label="In Bituin The Living Canvas">
+          <p className="header__eyebrow">In Bituin</p>
+          <h1 className="header__title">The Living Canvas</h1>
         </div>
-        <p className="header__intro">
-          A <strong>pre-game map</strong> for guests to bop around the city -
-          linking up with friends between the gallery and the after party. We
-          partner with <strong>local restaurants &amp; businesses</strong> who
-          offer exclusive perks to our community in exchange for foot traffic on{" "}
-          <strong>Philippine Independence Day.</strong>
-        </p>
+        <div className="header__intro">
+          <p>
+            Your go-to map for the in-between moments before the gallery event,
+            on the way to the after party, and beyond.
+          </p>
+          <p>
+            In celebration of Philippine Independence, we’ve partnered with
+            Filipino-owned restaurants and businesses across NYC and Northeast
+            Jersey to give back to the community through special discounts on
+            June 13. Explore our constellation!
+          </p>
+        </div>
         <div className="header__meta">
           <span className="meta-pip">
             <span className="meta-pip__dot" />

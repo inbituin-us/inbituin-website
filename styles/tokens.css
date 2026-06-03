@@ -60,7 +60,7 @@
   --ib-press-veil: rgba(86, 44, 44, 0.16);
 
   /* Type families */
-  --ib-font-display: "The Seasons", "Cormorant Garamond", "Bodoni Moda", Georgia, serif;
+  --ib-font-display: "the-seasons", "The Seasons", "Cormorant Garamond", "Bodoni Moda", Georgia, serif;
   --ib-font-sans: "Poppins", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
   --ib-font-mono: "Space Mono", "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
@@ -85,8 +85,8 @@
 
   --ib-tracking-eyebrow: 0.18em;
   --ib-tracking-caps: 0.18em;
-  --ib-tracking-tight: -0.01em;
-  --ib-tracking-display: -0.012em;
+  --ib-tracking-tight: 0;
+  --ib-tracking-display: 0;
 
   /* Spacing */
   --ib-space-1: 4px;

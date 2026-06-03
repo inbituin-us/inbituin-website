@@ -9,7 +9,6 @@ export function ConstellationMobileTopChrome() {
   return (
     <div className="mob-top">
       <div className="mob-top__lockup">
-        <span className="mob-top__mark" aria-hidden="true" />
         <div className="mob-top__copy">
           <span className="mob-top__brand">In Bituin</span>
           <div className="mob-top__title">

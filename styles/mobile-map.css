@@ -44,8 +44,8 @@
   }
 
   .map-wrap--mobile .leaflet-tile-pane {
-    filter: sepia(0.18) hue-rotate(18deg) saturate(0.72) brightness(1.02)
-      contrast(0.96);
+    filter: sepia(0.16) hue-rotate(36deg) saturate(0.62) brightness(1.08)
+      contrast(0.94);
   }
 
   .map-wrap--mobile .leaflet-control-container,
@@ -55,12 +55,8 @@
 
   .map-wrap--mobile .map-tint {
     z-index: 400;
-    background: radial-gradient(
-      ellipse at 50% 35%,
-      transparent 48%,
-      rgba(94, 121, 72, 0.2) 100%
-    );
-    mix-blend-mode: normal;
+    background: rgba(94, 121, 72, 0.045);
+    mix-blend-mode: multiply;
   }
 
   .mob-top {
@@ -81,24 +77,7 @@
   .mob-top__lockup {
     display: flex;
     align-items: flex-start;
-    gap: 14px;
-  }
-
-  .mob-top__mark {
-    width: 40px;
-    height: 40px;
-    margin-top: 2px;
-    background-color: var(--ib-gold);
-    mask-image: url("/assets/graphics/04-LockUp-Star-White.png");
-    mask-position: center;
-    mask-repeat: no-repeat;
-    mask-size: contain;
-    -webkit-mask-image: url("/assets/graphics/04-LockUp-Star-White.png");
-    -webkit-mask-position: center;
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-size: contain;
-    filter: drop-shadow(0 1px 3px rgba(86, 44, 44, 0.2));
-    flex: 0 0 auto;
+    gap: 12px;
   }
 
   .mob-top__copy {
@@ -109,12 +88,36 @@
   .mob-top__brand {
     display: block;
     color: var(--ib-gold);
-    font-family: var(--ib-font-mono);
+    font-family: var(--ib-font-sans);
     font-size: 10px;
-    font-weight: 700;
+    font-weight: 400;
     line-height: 1;
-    letter-spacing: 0.28em;
+    letter-spacing: 0.32em;
     text-transform: uppercase;
+  }
+
+  .mob-top__title {
+    margin-top: 10px;
+    display: flex;
+    align-items: baseline;
+  }
+
+  .mob-top__title h1 {
+    margin: 0;
+    color: var(--ib-gold);
+    font-family: var(--ib-font-display);
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 380px) {
+    .mob-top__title h1,
+    .mob-top__title em {
+      font-size: 24px;
+    }
   }
 
   .mob-top__rsvp {
@@ -134,23 +137,6 @@
     text-transform: uppercase;
   }
 
-  .mob-top__title {
-    margin-top: 4px;
-    display: flex;
-    align-items: baseline;
-  }
-
-  .mob-top__title h1 {
-    margin: 0;
-    color: var(--ib-gold);
-    font-family: var(--ib-font-display);
-    font-size: 29px;
-    font-weight: 500;
-    line-height: 0.9;
-    letter-spacing: -0.02em;
-    white-space: nowrap;
-  }
-
   .mob-chips {
     position: absolute;
     top: calc(env(safe-area-inset-top, 0px) + 108px);
@@ -163,19 +149,6 @@
     padding: 0 18px;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
-  }
-
-  @media (max-width: 380px) {
-    .mob-top__title h1,
-    .mob-top__title em {
-      font-size: 25px;
-    }
-
-    .mob-top__mark {
-      width: 20px;
-      height: 20px;
-    }
-
   }
 
   .mob-chips::-webkit-scrollbar {
@@ -326,7 +299,7 @@
     font-family: var(--ib-font-display);
     font-size: 19px;
     font-weight: 500;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
     color: var(--ib-espresso);
   }
 
@@ -389,7 +362,7 @@
     font-size: 18px;
     font-weight: 500;
     line-height: 1.1;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
@@ -515,7 +488,7 @@
     font-size: 26px;
     font-weight: 500;
     line-height: 1.05;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
     min-width: 0;
   }
 
@@ -555,7 +528,7 @@
     font-size: 20px;
     font-weight: 600;
     line-height: 1.05;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
   }
 
   .mob-detail__perk-period {

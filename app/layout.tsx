@@ -13,24 +13,26 @@ import "@/styles/popup.css";
 import "@/styles/foot.css";
 import "@/styles/tweaks.css";
 
+const STAR_ICON = "/assets/graphics/04-LockUp-Star-White.png";
+
 export const metadata: Metadata = {
   title: "In Bituin",
   description: "The Living Canvas — a constellation of Filipino creativity grounded in kapwa.",
   manifest: "/manifest.webmanifest",
   icons: {
     icon: [
-      { url: "/assets/graphics/philippine-sun-calamansi.png", type: "image/png" },
+      { url: STAR_ICON, type: "image/png" },
     ],
     apple: [
-      { url: "/assets/graphics/philippine-sun-calamansi.png", type: "image/png" },
+      { url: STAR_ICON, type: "image/png" },
     ],
-    shortcut: "/assets/graphics/philippine-sun-calamansi.png",
+    shortcut: STAR_ICON,
   },
   appleWebApp: {
     capable: true,
     title: "In Bituin",
     statusBarStyle: "black-translucent",
-    startupImage: "/assets/graphics/philippine-sun-calamansi.png",
+    startupImage: STAR_ICON,
   },
 };
 

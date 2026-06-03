@@ -21,63 +21,48 @@
   }
 }
 
-.header__title-row {
-  display: flex;
-  align-items: flex-end;
-  gap: clamp(20px, 4vw, 56px);
+.header__brand-lockup {
+  display: grid;
+  gap: 20px;
+  justify-items: center;
+  text-align: center;
+}
+
+.header__eyebrow {
+  margin: 0;
+  color: var(--ib-fg-display);
+  font-family: var(--ib-font-sans);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.33em;
+  text-transform: uppercase;
 }
 
 .header__title {
   font-family: var(--ib-font-display);
-  font-weight: 500;
-  font-size: clamp(64px, 9vw, 128px);
-  line-height: 0.98;
-  letter-spacing: var(--ib-tracking-display);
+  font-weight: 400;
+  font-size: 82px;
+  line-height: 0.9;
+  letter-spacing: 0;
   color: var(--ib-fg-display);
   margin: 0;
-  display: flex;
-  align-items: baseline;
-  gap: 0.18em;
-  flex-wrap: wrap;
-}
-
-.header__lockup {
-  flex: 0 0 auto;
-  width: clamp(96px, 13vw, 176px);
-  aspect-ratio: 1;
-  margin-bottom: 0.16em;
-  display: block;
-  background-color: var(--ib-linen);
-  mask-image: url('/assets/graphics/04-LockUp-Star-White.png');
-  mask-position: center;
-  mask-repeat: no-repeat;
-  mask-size: contain;
-  -webkit-mask-image: url('/assets/graphics/04-LockUp-Star-White.png');
-  -webkit-mask-position: center;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-size: contain;
-  filter: drop-shadow(0 2px 5px rgba(86, 44, 44, 0.18));
-}
-
-.header__title em {
-  font-style: italic;
-  color: var(--ib-linen);
-  font-weight: 400;
-}
-
-.header__title-mark {
-  font-style: normal;
-  color: var(--ib-calamansi);
-  display: inline-block;
-  transform: translateY(-0.06em);
 }
 
 .header__intro {
-  max-width: 760px;
+  max-width: none;
   margin-top: 32px;
   font-size: 18px;
   line-height: 1.7;
   color: var(--ib-fg);
+}
+
+.header__intro p {
+  margin: 0;
+}
+
+.header__intro p + p {
+  margin-top: 16px;
 }
 
 .header__intro em {
@@ -122,15 +107,28 @@
   font-weight: 600;
 }
 
+@media (max-width: 1100px) {
+  .header__eyebrow {
+    font-size: 16px;
+  }
+
+  .header__title {
+    font-size: 68px;
+  }
+}
+
 @media (max-width: 760px) {
-  .header__title-row {
-    align-items: flex-start;
-    flex-direction: column;
+  .header__brand-lockup {
     gap: 16px;
   }
 
-  .header__lockup {
-    width: 128px;
-    margin-bottom: 0;
+  .header__eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.28em;
+  }
+
+  .header__title {
+    font-size: 48px;
+    line-height: 0.92;
   }
 }

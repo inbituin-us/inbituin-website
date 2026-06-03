@@ -18,48 +18,32 @@
 .nav__brand {
   display: flex;
   align-items: center;
-  gap: 12px;
   flex: 0 0 auto;
-}
-
-.nav__brand-mark {
-  width: 34px;
-  height: 34px;
-  background-color: var(--ib-linen);
-  mask-image: url('/assets/graphics/04-LockUp-Star-White.png');
-  mask-position: center;
-  mask-repeat: no-repeat;
-  mask-size: contain;
-  -webkit-mask-image: url('/assets/graphics/04-LockUp-Star-White.png');
-  -webkit-mask-position: center;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-size: contain;
-  flex: 0 0 auto;
-  filter: drop-shadow(0 1px 3px rgba(86, 44, 44, 0.2));
 }
 
 .nav__brand-text {
   display: grid;
-  gap: 2px;
+  gap: 6px;
   color: var(--ib-fg-display);
 }
 
 .nav__brand-eyebrow {
-  font-family: var(--ib-font-mono);
-  font-size: 10px;
+  font-family: var(--ib-font-sans);
+  font-size: 8px;
   font-weight: 400;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.32em;
   line-height: 1;
+  padding-left: 8px;
   text-transform: uppercase;
 }
 
 .nav__brand-title {
   font-family: var(--ib-font-display);
-  font-size: 24px;
-  font-weight: 500;
-  line-height: 0.92;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 0.9;
   color: var(--ib-fg-display);
-  letter-spacing: var(--ib-tracking-display);
+  letter-spacing: 0;
 }
 
 .nav__links {

@@ -5,10 +5,6 @@ export default function Nav() {
     <nav className="nav">
       <div className="nav__inner">
         <a className="nav__brand" href="/map">
-          <span
-            className="nav__brand-mark"
-            aria-hidden="true"
-          />
           <span className="nav__brand-text">
             <span className="nav__brand-eyebrow">In Bituin</span>
             <span className="nav__brand-title">The Living Canvas</span>
