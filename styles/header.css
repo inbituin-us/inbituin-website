@@ -1,7 +1,8 @@
 .header {
   max-width: var(--ib-container-wide);
   margin: 0 auto;
-  padding: 88px var(--ib-gutter) 56px;
+  /* top padding clears the fixed site nav */
+  padding: 132px var(--ib-gutter) 56px;
   position: relative;
 }
 

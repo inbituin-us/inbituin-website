@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
-import Nav from "@/components/Nav";
+import SiteNav from "@/components/SiteNav";
 import ConstellationList from "@/components/ConstellationList";
 import {
   ConstellationMobileSheet,
@@ -183,7 +183,7 @@ export default function ConstellationMapApp({
         <span className="v br-v" />
       </div>
 
-      <Nav />
+      <SiteNav active="map" />
 
       <header className="header">
         <div className="header__brand-lockup" aria-label="In Bituin The Living Canvas">

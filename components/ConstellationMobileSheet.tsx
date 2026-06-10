@@ -9,12 +9,12 @@ export function ConstellationMobileTopChrome() {
   return (
     <div className="mob-top">
       <div className="mob-top__lockup">
-        <div className="mob-top__copy">
+        <a className="mob-top__copy" href="/" aria-label="In Bituin home">
           <span className="mob-top__brand">In Bituin</span>
           <div className="mob-top__title">
             <h1>The Living Canvas</h1>
           </div>
-        </div>
+        </a>
         <a className="mob-top__rsvp" href={RSVP_URL} target="_blank" rel="noopener">
           RSVP
         </a>

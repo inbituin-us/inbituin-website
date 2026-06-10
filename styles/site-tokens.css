@@ -1,0 +1,54 @@
+/* =====================================================================
+   IN BITUIN — SITE design language ("Midnight Canopy")
+   ---------------------------------------------------------------------
+   This is the design language for the In Bituin SITE OVERALL (the
+   community landing page, and any future community-level pages).
+   It is deliberately scoped to [data-theme="site"] so it can coexist
+   with per-event design languages (e.g. The Living Canvas on /map).
+
+   Ground = near-black forest greens; body voice = linen/abaca cream;
+   the star (calamansi yellow) is used in decisive, tiny amounts —
+   eyebrows, one CTA, the map pins.
+
+   Brand constants (--ib-fern, --ib-linen, --ib-calamansi, …) are shared
+   and live in styles/tokens.css at :root. Everything semantic here uses
+   the --site-* namespace so it never collides with event tokens.
+   See DESIGN.md for the full dissection.
+   ===================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap');
+
+[data-theme="site"] {
+  /* Midnight canopy ground */
+  --site-night-0: #0b1108; /* deepest */
+  --site-night-1: #101a0c; /* base ground */
+  --site-night-2: #15220f; /* elevated section */
+  --site-night-3: #1d2e14; /* card */
+  --site-night-glow: rgba(94, 121, 72, 0.3);
+
+  /* Voice */
+  --site-fg: var(--ib-linen);
+  --site-fg-muted: rgba(228, 222, 181, 0.72);
+  --site-fg-dim: rgba(214, 206, 147, 0.55);
+  --site-accent: var(--ib-calamansi);
+  --site-accent-on: #161a08;
+
+  --site-rule: rgba(228, 222, 181, 0.14);
+  --site-rule-strong: rgba(228, 222, 181, 0.3);
+
+  /* Type — the site speaks DM Sans / DM Mono; display stays Cormorant */
+  --site-font-display: "Cormorant Garamond", "Bodoni Moda", Georgia, serif;
+  --site-font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  --site-font-mono: "DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --site-tracking-eyebrow: 0.22em;
+  --site-gutter: clamp(20px, 5vw, 72px);
+  --site-container: 1280px;
+
+  --site-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --site-dur-2: 240ms;
+  --site-dur-3: 480ms;
+
+  /* tweakable */
+  --site-hero-scrim: 0.62;
+}

@@ -3,7 +3,6 @@ import "@/styles/leaflet.css";
 import "@/styles/tokens.css";
 import "@/styles/globals.css";
 import "@/styles/page.css";
-import "@/styles/nav.css";
 import "@/styles/header.css";
 import "@/styles/list.css";
 import "@/styles/map.css";
@@ -12,12 +11,16 @@ import "@/styles/pins.css";
 import "@/styles/popup.css";
 import "@/styles/foot.css";
 import "@/styles/tweaks.css";
+import "@/styles/entrance.css";
+import "@/styles/site-tokens.css";
+import "@/styles/landing.css";
 
 const STAR_ICON = "/assets/graphics/04-LockUp-Star-White.png";
 
 export const metadata: Metadata = {
   title: "In Bituin",
-  description: "The Living Canvas — a constellation of Filipino creativity grounded in kapwa.",
+  description:
+    "In Bituin is a gathering of Filipino artists, musicians, poets and storytellers shining together — a constellation across the city.",
   manifest: "/manifest.webmanifest",
   icons: {
     icon: [

@@ -269,6 +269,8 @@ interface ConstellationMapProps {
   mobileMode?: boolean;
   sheetHeight?: number;
   locateRequest?: number;
+  /** When false, wheel zoom only engages while the map has focus (for embeds inside scrolling pages). */
+  scrollWheelZoom?: boolean;
 }
 
 export default function ConstellationMap({
@@ -281,6 +283,7 @@ export default function ConstellationMap({
   mobileMode = false,
   sheetHeight = 0,
   locateRequest = 0,
+  scrollWheelZoom = true,
 }: ConstellationMapProps) {
   const mapEl = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
@@ -297,8 +300,13 @@ export default function ConstellationMap({
       zoomSnap: mobileMode ? 0.5 : 1,
       zoomControl: false,
       attributionControl: false,
-      scrollWheelZoom: true,
+      scrollWheelZoom,
     });
+
+    if (!scrollWheelZoom) {
+      map.on("focus", () => map.scrollWheelZoom.enable());
+      map.on("blur", () => map.scrollWheelZoom.disable());
+    }
 
     if (!mobileMode) {
       L.control.zoom({ position: "topright" }).addTo(map);

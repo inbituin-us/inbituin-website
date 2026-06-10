@@ -1,0 +1,97 @@
+/* =====================================================================
+   THE LIVING CANVAS — /map entrance choreography
+   One simultaneous burst from the center: a calamansi flash blooms out
+   while every element flies from the middle of the screen to its place —
+   nav up, lockup up-left, intro up, meta up-right, list out to the left.
+   The map itself never moves; it only fades in where it lives.
+   Motion-reduced users skip it all.
+   ===================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes lc-burst-out {
+    from {
+      opacity: 0;
+      transform: translate(var(--lc-from-x, 0), var(--lc-from-y, 0));
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes lc-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes lc-flash {
+    from {
+      opacity: 0;
+      transform: scale(0.2);
+    }
+    30% {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+      transform: scale(1.6);
+    }
+  }
+
+  /* the explosion flash, radiating from the center */
+  .desktop-map-page::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 40;
+    background: radial-gradient(
+      circle at 50% 46%,
+      rgba(221, 214, 18, 0.3),
+      rgba(239, 235, 206, 0.12) 30%,
+      transparent 62%
+    );
+    animation: lc-flash 0.9s ease-out 0.02s both;
+  }
+
+  /* everything launches together, displaced toward the center,
+     and flies outward to its natural position */
+  .desktop-map-page .lp-nav,
+  .desktop-map-page .header__brand-lockup,
+  .desktop-map-page .header__intro,
+  .desktop-map-page .header__meta,
+  .desktop-map-page .list {
+    animation: lc-burst-out 0.85s var(--ib-ease-out) 0.05s both;
+  }
+  .desktop-map-page .lp-nav {
+    --lc-from-y: 36px;
+  }
+  .desktop-map-page .header__brand-lockup {
+    --lc-from-x: 48px;
+    --lc-from-y: 36px;
+  }
+  .desktop-map-page .header__intro {
+    --lc-from-y: 42px;
+  }
+  .desktop-map-page .header__meta {
+    --lc-from-x: -48px;
+    --lc-from-y: 36px;
+  }
+  .desktop-map-page .list {
+    --lc-from-x: 64px;
+  }
+
+  /* the map holds its position — fade only, no movement */
+  .desktop-map-page .map-wrap {
+    animation: lc-fade 0.85s var(--ib-ease-out) 0.05s both;
+  }
+  .desktop-map-page .ticks {
+    animation: lc-fade 1.2s ease 0.3s both;
+  }
+
+  .mobile-map-screen {
+    animation: lc-fade 0.7s ease both;
+  }
+}
