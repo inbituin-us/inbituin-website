@@ -30,9 +30,12 @@ interface MobileSheetProps {
   sheetLevel: MobileSheetLevel;
   sheetHeight: number;
   snapHeights: Record<MobileSheetLevel, number>;
+  detailMini: boolean;
+  detailSnapHeights: { mini: number; full: number };
   onToggleExpanded: () => void;
   onDragHeight: (height: number | null) => void;
   onSnapLevel: (level: MobileSheetLevel) => void;
+  onDetailSnap: (mini: boolean) => void;
   onSelect: (id: string) => void;
   onClose: () => void;
 }
@@ -44,17 +47,27 @@ export function ConstellationMobileSheet({
   sheetLevel,
   sheetHeight,
   snapHeights,
+  detailMini,
+  detailSnapHeights,
   onToggleExpanded,
   onDragHeight,
   onSnapLevel,
+  onDetailSnap,
   onSelect,
   onClose,
 }: MobileSheetProps) {
   const [isDragging, setIsDragging] = useState(false);
   const dragStart = useRef<{ y: number; height: number } | null>(null);
   const draggedRef = useRef(false);
-  const handleLabel =
-    sheetLevel === "expanded" ? "Collapse business list" : "Expand business list";
+  const handleLabel = active
+    ? detailMini
+      ? "Expand details"
+      : "Minimize details"
+    : sheetLevel === "expanded"
+      ? "Collapse business list"
+      : "Expand business list";
+  const minHeight = active ? detailSnapHeights.mini : snapHeights.peek;
+  const maxHeight = active ? detailSnapHeights.full : snapHeights.expanded;
 
   const snapToNearestLevel = (height: number) => {
     const levels: MobileSheetLevel[] = ["peek", "collapsed", "expanded"];
@@ -65,13 +78,19 @@ export function ConstellationMobileSheet({
     }, "collapsed" as MobileSheetLevel);
   };
 
+  const toggleSnap = () => {
+    if (active) {
+      onDetailSnap(!detailMini);
+    } else {
+      onToggleExpanded();
+    }
+  };
+
   const onPointerMove = (event: PointerEvent<HTMLButtonElement>) => {
-    if (!dragStart.current || active) return;
+    if (!dragStart.current) return;
     const delta = dragStart.current.y - event.clientY;
     if (Math.abs(delta) <= 3) return;
     draggedRef.current = true;
-    const minHeight = snapHeights.peek;
-    const maxHeight = snapHeights.expanded;
     const nextHeight = Math.max(
       minHeight,
       Math.min(dragStart.current.height + delta, maxHeight),
@@ -80,23 +99,30 @@ export function ConstellationMobileSheet({
   };
 
   const finishDrag = (event: PointerEvent<HTMLButtonElement>) => {
-    if (!dragStart.current || active) return;
+    if (!dragStart.current) return;
     event.currentTarget.releasePointerCapture(event.pointerId);
     setIsDragging(false);
 
     if (!draggedRef.current) {
       dragStart.current = null;
-      onToggleExpanded();
+      toggleSnap();
       return;
     }
 
     const delta = dragStart.current.y - event.clientY;
     const projectedHeight = Math.max(
-      snapHeights.peek,
-      Math.min(dragStart.current.height + delta, snapHeights.expanded),
+      minHeight,
+      Math.min(dragStart.current.height + delta, maxHeight),
     );
     dragStart.current = null;
-    onSnapLevel(snapToNearestLevel(projectedHeight));
+    if (active) {
+      const { mini, full } = detailSnapHeights;
+      onDetailSnap(
+        Math.abs(projectedHeight - mini) < Math.abs(projectedHeight - full),
+      );
+    } else {
+      onSnapLevel(snapToNearestLevel(projectedHeight));
+    }
   };
 
   return (
@@ -108,9 +134,7 @@ export function ConstellationMobileSheet({
       <button
         className="mob-sheet__handle"
         aria-label={handleLabel}
-        disabled={Boolean(active)}
         onPointerDown={(event) => {
-          if (active) return;
           event.currentTarget.setPointerCapture(event.pointerId);
           dragStart.current = { y: event.clientY, height: sheetHeight };
           draggedRef.current = false;
@@ -128,7 +152,7 @@ export function ConstellationMobileSheet({
         onKeyDown={(event) => {
           if (event.key !== "Enter" && event.key !== " ") return;
           event.preventDefault();
-          onToggleExpanded();
+          toggleSnap();
         }}
         type="button"
       />

@@ -6,7 +6,40 @@ import Starfield from "@/components/landing/Starfield";
 import MediaSlot from "@/components/landing/MediaSlot";
 import LandingMapSection from "@/components/landing/LandingMapSection";
 import { landingMedia } from "@/data/landingMedia";
-import { RSVP_URL, INSTAGRAM_URL, INSTAGRAM_HANDLE } from "@/data/links";
+import {
+  RSVP_URL,
+  AFTER_PARTY_TICKETS_URL,
+  HELLO_MARKET_DIRECTIONS_URL,
+  KIND_REGARDS_DIRECTIONS_URL,
+  INSTAGRAM_URL,
+  INSTAGRAM_HANDLE,
+} from "@/data/links";
+
+function CapDirections({ href, venue }: { href: string; venue: string }) {
+  return (
+    <a
+      className="lp-cap-directions"
+      href={href}
+      target="_blank"
+      rel="noopener"
+      aria-label={`Directions to ${venue}`}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M12 22s8-7.58 8-13a8 8 0 1 0-16 0c0 5.42 8 13 8 13z" />
+        <circle cx="12" cy="9" r="2.5" />
+      </svg>
+      Directions
+    </a>
+  );
+}
 import type { Partner } from "@/data/partners";
 
 /** Hero treatment: "centered" | "editorial" | "framed" (see styles/landing.css). */
@@ -188,9 +221,51 @@ export default function LandingPage({ partners }: LandingPageProps) {
             </div>
             <div className="lp-next__poster lp-reveal">
               <MediaSlot media={landingMedia.nextPoster} />
-              <p className="lp-next__poster-cap">
-                June 13 · 11am–5pm · Hello Market, 46 Market St, NYC
+              <div className="lp-next__poster-cap">
+                <span>Saturday, June 13, 2026 · 11am–5pm</span>
+                <span className="lp-cap-loc">
+                  Hello Market, 46 Market St, New York, NY 10002
+                  <CapDirections
+                    href={HELLO_MARKET_DIRECTIONS_URL}
+                    venue="Hello Market"
+                  />
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="lp-next lp-next--after">
+            <div className="lp-next__poster lp-next__poster--after lp-reveal">
+              <MediaSlot media={landingMedia.afterPartyPoster} />
+              <div className="lp-next__poster-cap">
+                <span>Saturday, June 13, 2026 · 10pm–4am</span>
+                <span className="lp-cap-loc">
+                  Kind Regards, 152 Ludlow St, New York, NY 10002
+                  <CapDirections
+                    href={KIND_REGARDS_DIRECTIONS_URL}
+                    venue="Kind Regards"
+                  />
+                </span>
+              </div>
+            </div>
+            <div className="lp-next__copy lp-reveal">
+              <p className="lp-eyebrow">And after dark</p>
+              <h3 className="lp-display lp-next__title">The After Party</h3>
+              <p className="lp-copy">
+                The After Party is an open event — everyone is welcome,
+                whether or not you joined us at the gallery. Keep the night
+                going with Cuffing Season at Kind Regards: pinoy pride, RnB,
+                hip-hop, and budots until 4am.
               </p>
+              <a
+                className="lp-next__cta"
+                href={AFTER_PARTY_TICKETS_URL}
+                target="_blank"
+                rel="noopener"
+              >
+                Tickets — After Party
+                <span aria-hidden="true">↗</span>
+              </a>
             </div>
           </div>
         </div>

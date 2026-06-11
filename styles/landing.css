@@ -173,17 +173,8 @@ body:has(.lp-root) {
   gap: 11px;
 }
 .lp-nav__brand img {
-  width: 26px;
-  height: 26px;
-}
-.lp-nav__brand-text {
-  font-family: var(--site-font-display);
-  font-style: italic;
-  font-weight: 600;
-  font-size: 22px;
-  color: var(--ib-linen);
-  letter-spacing: 0.01em;
-  white-space: nowrap;
+  width: auto;
+  height: 30px;
 }
 .lp-nav__links {
   display: flex;
@@ -689,6 +680,9 @@ body:has(.lp-root) {
   box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.7);
 }
 .lp-next__poster-cap {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   margin-top: 14px;
   font-family: var(--site-font-mono);
   font-size: 10px;
@@ -696,6 +690,44 @@ body:has(.lp-root) {
   text-transform: uppercase;
   color: var(--site-fg-dim);
   text-align: center;
+}
+.lp-next__poster-cap span:first-child {
+  color: var(--site-fg);
+}
+.lp-cap-loc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+}
+.lp-cap-directions {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 11px;
+  border: 1px solid var(--site-rule-strong);
+  border-radius: 999px;
+  color: var(--ib-calamansi);
+  transition: border-color var(--site-dur-2) var(--site-ease-out),
+    color var(--site-dur-2) var(--site-ease-out);
+}
+.lp-cap-directions:hover {
+  border-color: var(--ib-calamansi);
+  color: var(--ib-gold);
+}
+.lp-cap-directions svg {
+  width: 11px;
+  height: 11px;
+}
+
+/* After Party — mirrored row below the Living Canvas flyer */
+.lp-next--after {
+  grid-template-columns: 0.9fr 1.1fr;
+  margin-top: clamp(64px, 9vw, 120px);
+}
+.lp-next__poster--after .lp-slot {
+  aspect-ratio: 3 / 4; /* after-party flyer ratio, shown uncropped */
 }
 
 /* =====================================================================

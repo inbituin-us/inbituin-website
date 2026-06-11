@@ -8,6 +8,12 @@ import {
   ConstellationMobileSheet,
   ConstellationMobileTopChrome,
 } from "@/components/ConstellationMobileSheet";
+import {
+  RSVP_URL,
+  AFTER_PARTY_TICKETS_URL,
+  HELLO_MARKET_DIRECTIONS_URL,
+  KIND_REGARDS_DIRECTIONS_URL,
+} from "@/data/links";
 import type { Partner } from "@/data/partners";
 
 const ConstellationMap = dynamic(
@@ -22,6 +28,74 @@ interface Tweaks {
 }
 
 type MobileSheetLevel = "peek" | "collapsed" | "expanded";
+
+interface FlyerCardProps {
+  posterSrc: string;
+  posterAlt: string;
+  title: string;
+  detail: string;
+  eventUrl: string;
+  directionsUrl: string;
+  venue: string;
+}
+
+function FlyerCard({
+  posterSrc,
+  posterAlt,
+  title,
+  detail,
+  eventUrl,
+  directionsUrl,
+  venue,
+}: FlyerCardProps) {
+  return (
+    <div className="flyer">
+      <a
+        className="flyer__poster"
+        href={eventUrl}
+        target="_blank"
+        rel="noopener"
+      >
+        <img src={posterSrc} alt={posterAlt} />
+      </a>
+      <div className="flyer__cap">
+        <a
+          className="flyer__cap-text"
+          href={eventUrl}
+          target="_blank"
+          rel="noopener"
+        >
+          <strong>{title}</strong>
+          <span>{detail}</span>
+        </a>
+        <a
+          className="flyer__directions"
+          href={directionsUrl}
+          target="_blank"
+          rel="noopener"
+          aria-label={`Directions to ${venue}`}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M12 22s8-7.58 8-13a8 8 0 1 0-16 0c0 5.42 8 13 8 13z" />
+            <circle cx="12" cy="9" r="2.5" />
+          </svg>
+          Directions
+        </a>
+      </div>
+    </div>
+  );
+}
+
+/** Snap heights for the detail card: full view and dragged-down mini view. */
+const DETAIL_SNAP_HEIGHTS = { mini: 164, full: 440 };
 
 interface ConstellationMapAppProps {
   partners: Partner[];
@@ -40,6 +114,7 @@ export default function ConstellationMapApp({
   const [filter, setFilter] = useState("All");
   const [mobileSheetLevel, setMobileSheetLevel] =
     useState<MobileSheetLevel>("collapsed");
+  const [mobileDetailMini, setMobileDetailMini] = useState(false);
   const [mobileSheetDragHeight, setMobileSheetDragHeight] = useState<number | null>(null);
   const [locateRequest, setLocateRequest] = useState(0);
   const [tweaks, setTweaks] = useState<Tweaks>({
@@ -90,7 +165,9 @@ export default function ConstellationMapApp({
     ? (partners.find((partner) => partner.id === mobileActiveId) ?? null)
     : null;
   const mobileSheetHeight = mobileActive
-    ? 440
+    ? mobileDetailMini
+      ? DETAIL_SNAP_HEIGHTS.mini
+      : DETAIL_SNAP_HEIGHTS.full
     : mobileSheetLevel === "expanded"
       ? Math.max(360, viewportHeight - 180)
       : mobileSheetLevel === "peek"
@@ -106,14 +183,20 @@ export default function ConstellationMapApp({
     "mobile-map-screen" +
     (mobileSheetLevel === "expanded" && !mobileActive ? " is-expanded" : "") +
     (mobileSheetLevel === "peek" && !mobileActive ? " is-peek" : "") +
-    (mobileActive ? " is-detail" : "");
+    (mobileActive ? " is-detail" : "") +
+    (mobileActive && mobileDetailMini ? " is-detail-mini" : "");
+
+  const selectMobilePartner = (id: string | null) => {
+    setMobileDetailMini(false);
+    setMobileActiveId(id);
+  };
 
   const mobileScreen = (
     <div className={mobileClassName}>
       <ConstellationMap
         partners={partners}
         activeId={mobileActiveId}
-        setActiveId={setMobileActiveId}
+        setActiveId={selectMobilePartner}
         hoverId={null}
         tileKey="paper"
         pinStyle="star"
@@ -151,6 +234,8 @@ export default function ConstellationMapApp({
         sheetLevel={mobileSheetLevel}
         sheetHeight={effectiveMobileSheetHeight}
         snapHeights={mobileSheetSnapHeights}
+        detailMini={mobileDetailMini}
+        detailSnapHeights={DETAIL_SNAP_HEIGHTS}
         onToggleExpanded={() =>
           setMobileSheetLevel((level) =>
             level === "expanded" ? "collapsed" : "expanded",
@@ -161,11 +246,15 @@ export default function ConstellationMapApp({
           setMobileSheetDragHeight(null);
           setMobileSheetLevel(level);
         }}
+        onDetailSnap={(mini) => {
+          setMobileSheetDragHeight(null);
+          setMobileDetailMini(mini);
+        }}
         onSelect={(id) => {
           setMobileSheetLevel("collapsed");
-          setMobileActiveId(id);
+          selectMobilePartner(id);
         }}
-        onClose={() => setMobileActiveId(null)}
+        onClose={() => selectMobilePartner(null)}
       />
     </div>
   );
@@ -233,6 +322,27 @@ export default function ConstellationMapApp({
           hoverId={hoverId}
           tileKey={tweaks.tileStyle}
           pinStyle={tweaks.pinStyle}
+        />
+      </section>
+
+      <section className="flyers" aria-label="Event flyers">
+        <FlyerCard
+          posterSrc="/media/poster-living-canvas.jpg"
+          posterAlt="The Living Canvas — Saturday June 13, 2026, 11am–5pm at Hello Market, 46 Market St, New York"
+          title="The Living Canvas"
+          detail="June 13 · 11am–5pm · Hello Market — RSVP ↗"
+          eventUrl={RSVP_URL}
+          directionsUrl={HELLO_MARKET_DIRECTIONS_URL}
+          venue="Hello Market"
+        />
+        <FlyerCard
+          posterSrc="/media/poster-after-party.jpg"
+          posterAlt="After Party — The Living Canvas, with Cuffing Season. Saturday June 13, 2026, 10pm–4am at Kind Regards, 152 Ludlow St, New York"
+          title="The After Party · Open to all"
+          detail="June 13 · 10pm–4am · Kind Regards — Tickets ↗"
+          eventUrl={AFTER_PARTY_TICKETS_URL}
+          directionsUrl={KIND_REGARDS_DIRECTIONS_URL}
+          venue="Kind Regards"
         />
       </section>
 

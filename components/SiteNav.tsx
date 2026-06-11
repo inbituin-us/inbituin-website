@@ -37,8 +37,7 @@ export default function SiteNav({ active }: SiteNavProps) {
     <header className={"lp-nav" + (stuck ? " is-stuck" : "")} data-theme="site">
       <div className="lp-nav__inner">
         <a className="lp-nav__brand" href="/" aria-label="In Bituin home">
-          <img src="/assets/graphics/04-LockUp-Star-White.png" alt="" />
-          <span className="lp-nav__brand-text">In Bituin</span>
+          <img src="/media/logo-in-bituin-lockup.png" alt="In Bituin" />
         </a>
         <nav className="lp-nav__links" aria-label="Primary">
           {link("/#about", "about", "About")}

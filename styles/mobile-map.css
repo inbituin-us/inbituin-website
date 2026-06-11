@@ -229,6 +229,10 @@
     bottom: 460px;
   }
 
+  .mobile-map-screen.is-detail-mini .mob-locate {
+    bottom: 184px;
+  }
+
   .mob-sheet {
     position: absolute;
     left: 0;

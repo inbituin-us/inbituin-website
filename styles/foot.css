@@ -52,3 +52,98 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ===== Event flyers below the map ===== */
+.flyers {
+  max-width: var(--ib-container);
+  margin: 0 auto;
+  padding: 0 var(--ib-gutter) 96px;
+  display: grid;
+  /* columns match the flyers' aspect ratios (1100×1424 and 1068×1424)
+     so both render at the same height, uncropped */
+  grid-template-columns: 1100fr 1068fr;
+  gap: clamp(24px, 4vw, 48px);
+  align-items: start;
+}
+
+.flyer__poster {
+  display: block;
+  transition: transform var(--ib-dur-2) var(--ib-ease-out);
+}
+
+.flyer__poster:hover {
+  transform: translateY(-4px);
+}
+
+.flyer__poster img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--ib-rule-strong);
+  box-shadow: var(--ib-shadow-deep);
+  background: var(--ib-bg-paper);
+}
+
+.flyer__cap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin-top: 14px;
+  font-family: var(--ib-font-mono);
+  font-size: var(--ib-text-2xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.flyer__cap-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.flyer__cap-text strong {
+  color: var(--ib-fg-display);
+  font-weight: 700;
+}
+
+.flyer__cap-text span {
+  color: var(--ib-fg-dim);
+}
+
+.flyer__cap-text:hover span {
+  color: var(--ib-bituin);
+}
+
+.flyer__directions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 13px;
+  border: 1px solid var(--ib-rule-dark);
+  border-radius: var(--ib-radius-pill);
+  color: var(--ib-bituin);
+  text-decoration: none;
+  transition: border-color var(--ib-dur-2) var(--ib-ease-out),
+    color var(--ib-dur-2) var(--ib-ease-out);
+}
+
+.flyer__directions:hover {
+  border-color: var(--ib-bituin);
+  color: var(--ib-bituin-soft);
+}
+
+.flyer__directions svg {
+  width: 12px;
+  height: 12px;
+}
+
+@media (max-width: 720px) {
+  .flyers {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+  }
+}

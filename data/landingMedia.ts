@@ -25,8 +25,8 @@ export const landingMedia = {
 
   /** In Bituin wordmark / logo — transparent PNG or SVG. Falls back to a text wordmark while null. */
   heroLogo: {
-    src: null,
-    label: "In Bituin wordmark",
+    src: "/media/logo-in-bituin.png",
+    label: "In Bituin",
   } as MediaSource,
 
   /** "What is In Bituin" — horizontal community photo beside the copy. */
@@ -47,5 +47,12 @@ export const landingMedia = {
     src: "/media/poster-living-canvas.jpg",
     label:
       "The Living Canvas — Saturday June 13, 2026, 11am–5pm at Hello Market, 46 Market St, New York",
+  } as MediaSource,
+
+  /** After Party flyer — 3:4 portrait. */
+  afterPartyPoster: {
+    src: "/media/poster-after-party.jpg",
+    label:
+      "After Party — The Living Canvas, with Cuffing Season. Saturday June 13, 2026, 10pm–4am at Kind Regards, 152 Ludlow St, New York",
   } as MediaSource,
 };
