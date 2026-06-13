@@ -138,7 +138,7 @@ export default function LandingPage({ partners }: LandingPageProps) {
             </div>
             <div className="lp-about__body lp-reveal">
               <p className="lp-about__lead">
-                Bituin <span className="lp-gloss">(bi-tyu-in)</span> is
+                Bituin <span className="lp-gloss">(/bi.tuˈʔin/ — bi-too-IN)</span> is
                 derived from the Tagalog language of the Philippines and
                 translates to star.
               </p>

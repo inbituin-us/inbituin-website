@@ -52,6 +52,7 @@ export default function SiteNav({ active }: SiteNavProps) {
           >
             <span className="lp-nav__map-star" aria-hidden="true">✦</span>
             <span className="lp-nav__map-label">The Constellation Map</span>
+            <span className="lp-nav__map-label--short">Map</span>
           </a>
           <a
             className="lp-nav__rsvp"

@@ -233,6 +233,9 @@ body:has(.lp-root) {
     color var(--site-dur-2) var(--site-ease-out),
     background var(--site-dur-2) var(--site-ease-out);
 }
+.lp-nav__map-label--short {
+  display: none;
+}
 .lp-nav__map-star {
   color: var(--ib-calamansi);
   font-size: 12px;
@@ -1013,9 +1016,12 @@ body:has(.lp-root) {
   .lp-hero__tagline {
     font-size: 11px;
   }
-  /* nav map button collapses to its star on small screens */
+  /* nav map button collapses to star + short label on small screens */
   .lp-nav__map-label {
     display: none;
+  }
+  .lp-nav__map-label--short {
+    display: inline;
   }
   .lp-nav__map {
     padding: 8px 12px;
